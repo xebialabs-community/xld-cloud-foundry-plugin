@@ -11,7 +11,7 @@ The Cloud Foundry plugin is a XL Deploy plugin that adds capability for deployin
 # Requirements #
 
 * **Requirements**
-	* **XL Deploy** 4.1-beta-2
+	* **XL Deploy** 4.5.0
 	* **XL Plugins**
 		* Database Plugin
 	* **Additional Runtime Libraries**
@@ -23,6 +23,8 @@ The Cloud Foundry plugin is a XL Deploy plugin that adds capability for deployin
 		* jackson-mapper-asl-1.9.2.jar
 		* tomcat-embed-core-8.0.8.jar
 	    * yamlbeans-1.06.jar
+	    * spring-core-3.2.2.RELEASE.jar (should be under plugins)
+	    * spring-web-3.2.2.RELEASE.jar (should replace the existing spring-web under `lib`, and also be put under `lib`)
 
 # Installation #
 

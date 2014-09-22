@@ -20,7 +20,7 @@
                 <order>9</order>
                 <script-path>cloudfoundry/create-application.py</script-path>
                 <jython-context>
-                    <app expression="true">deployedApplication</app>
+                    <deployed expression="true">deployed</deployed>
                 </jython-context>
             </jython>
 
