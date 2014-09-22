@@ -9,63 +9,56 @@
        xmlns="http://www.xebialabs.com/xl-deploy/xl-rules" >
 
     <rule name="cf_install_war" scope="deployed">
-    <conditions>
-        <type>cf.WarModuler</type>
-        <operation>CREATE</operation>
-    </conditions>
-    </rule>
-
-    <rule name="cf_install_war" scope="deployed">
         <conditions>
             <type>cf.WarModule</type>
             <operation>CREATE</operation>
             <operation>MODIFY</operation>
         </conditions>
         <steps>
-            <local-python operation="CREATE">
+            <jython operation="CREATE">
                 <description expression="true">"Ensure application " + deployed.name + " available on " + deployed.container.name</description>
                 <order>9</order>
                 <script-path>cloudfoundry/create-application.py</script-path>
-                <vars>
-                    <deployed expression="true">deployed</deployed>
-                </vars>
-            </local-python>
+                <jython-context>
+                    <app expression="true">deployedApplication</app>
+                </jython-context>
+            </jython>
 
-            <local-python operation="MODIFY">
+            <jython operation="MODIFY">
                 <description expression="true">"Stop application  " + deployed.name + " on " + deployed.container.name</description>
                 <order>20</order>
                 <script-path>cloudfoundry/stop-application.py</script-path>
-                <vars>
-                    <deployed expression="true">deployed</deployed>
-                </vars>
-            </local-python>
+                <jython-context>
+                    <app expression="true">deployedApplication</app>
+                </jython-context>
+            </jython>
 
-            <local-python>
+            <jython>
                 <description expression="true">"Bind services %s to [%s]" % (deployed.getProperty('bindings') , deployed.name)</description>
                 <order>45</order>
                 <script-path>cloudfoundry/bind-services.py</script-path>
-                <vars>
-                    <deployed expression="true">deployed</deployed>
-                </vars>
-            </local-python>
+                <jython-context>
+                    <app expression="true">deployedApplication</app>
+                </jython-context>
+            </jython>
 
-            <local-python>
+            <jython>
                 <description expression="true">"Upload application code for " + deployed.name + " to " + deployed.container.name</description>
                 <order>70</order>
                 <script-path>cloudfoundry/install-war.py</script-path>
-                <vars>
-                    <deployed expression="true">deployed</deployed>
-                </vars>
-            </local-python>
+                <jython-context>
+                    <app expression="true">deployedApplication</app>
+                </jython-context>
+            </jython>
 
-            <local-python>
+            <jython>
                 <description expression="true">"Start application  " + deployed.name + " on " + deployed.container.name</description>
                 <order>90</order>
                 <script-path>cloudfoundry/start-application.py</script-path>
-                <vars>
-                    <deployed expression="true">deployed</deployed>
-                </vars>
-            </local-python>
+                <jython-context>
+                    <app expression="true">deployedApplication</app>
+                </jython-context>
+            </jython>
         </steps>
     </rule>
 
@@ -75,14 +68,14 @@
             <operation>DESTROY</operation>
         </conditions>
         <steps>
-            <local-python>
+            <jython>
                 <description expression="true">"Undeploy " + deployed.name + " from " + deployed.container.name</description>
                 <order>40</order>
                 <script-path>cloudfoundry/uninstall-war.py</script-path>
-                <vars>
-                    <deployed expression="true">deployed</deployed>
-                </vars>
-            </local-python>
+                <jython-context>
+                    <app expression="true">deployedApplication</app>
+                </jython-context>
+            </jython>
         </steps>
     </rule>
 
@@ -92,14 +85,14 @@
             <operation>CREATE</operation>
         </conditions>
         <steps>
-            <local-python>
+            <jython>
                 <description expression="true">"Adding service " + deployed.name + " to " + deployed.container.name</description>
                 <order>44</order>
                 <script-path>cloudfoundry/install-service.py</script-path>
-                <vars>
-                    <deployed expression="true">deployed</deployed>
-                </vars>
-            </local-python>
+                <jython-context>
+                    <app expression="true">deployedApplication</app>
+                </jython-context>
+            </jython>
         </steps>
     </rule>
 
@@ -109,14 +102,14 @@
             <operation>DESTROY</operation>
         </conditions>
         <steps>
-            <local-python>
+            <jython>
                 <description expression="true">"Remove service " + deployed.name + " from " + deployed.container.name</description>
                 <order>42</order>
                 <script-path>cloudfoundry/uninstall-service.py</script-path>
-                <vars>
-                    <deployed expression="true">deployed</deployed>
-                </vars>
-            </local-python>
+                <jython-context>
+                    <app expression="true">deployedApplication</app>
+                </jython-context>
+            </jython>
         </steps>
     </rule>
 
@@ -128,23 +121,23 @@
             <operation>MODIFY</operation>
         </conditions>
         <steps>
-            <local-python>
+            <jython>
                 <description expression="true">"Discover bound db services runtime metadata for space"</description>
                 <script-path>cloudfoundry/discover-services-metadata.py</script-path>
                 <order>48</order>
-                <vars>
-                    <deployed expression="true">deployed</deployed>
-                </vars>
-            </local-python>
+                <jython-context>
+                    <app expression="true">deployedApplication</app>
+                </jython-context>
+            </jython>
 
-            <local-python>
+            <jython>
                 <description expression="true">"Delete discovery application from space"</description>
                 <script-path>cloudfoundry/delete-discovery-app.py</script-path>
                 <order>52</order>
-                <vars>
-                    <deployed expression="true">deployed</deployed>
-                </vars>
-            </local-python>
+                <jython-context>
+                    <app expression="true">deployedApplication</app>
+                </jython-context>
+            </jython>
         </steps>
     </rule>
 
@@ -154,23 +147,23 @@
             <operation>DESTROY</operation>
         </conditions>
         <steps>
-            <local-python>
+            <jython>
                 <description expression="true">"Discover bound db services runtime metadata for space"</description>
                 <script-path>cloudfoundry/discover-services-metadata.py</script-path>
                 <order>39</order>
-                <vars>
-                    <deployed expression="true">deployed</deployed>
-                </vars>
-            </local-python>
+                <jython-context>
+                    <app expression="true">deployedApplication</app>
+                </jython-context>
+            </jython>
 
-            <local-python>
+            <jython>
                 <description expression="true">"Delete discovery application from space"</description>
                 <script-path>cloudfoundry/delete-discovery-app.py</script-path>
                 <order>41</order>
-                <vars>
-                    <deployed expression="true">deployed</deployed>
-                </vars>
-            </local-python>
+                <jython-context>
+                    <app expression="true">deployedApplication</app>
+                </jython-context>
+            </jython>
         </steps>
     </rule>
 
