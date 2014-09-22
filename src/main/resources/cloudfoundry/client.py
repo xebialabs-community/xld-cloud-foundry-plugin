@@ -1,3 +1,9 @@
+#
+# THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS
+# FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALABS.
+#
+
 from org.cloudfoundry.client.lib import CloudCredentials
 from org.cloudfoundry.client.lib.domain import CloudEntity, CloudService, CloudApplication, Staging
 from org.cloudfoundry.client.lib.rest import CloudControllerClientFactory
