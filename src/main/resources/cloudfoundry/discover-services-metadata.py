@@ -1,0 +1,52 @@
+from cloudfoundry.util import CFClientUtil
+from java.io import File
+import simplejson as json
+import urllib2
+import time
+
+space = deployed.container.getProperty('space')
+cfClient = CFClientUtil.createClient(space)
+
+appName = "discovery-%s" % deployed.name
+uris = ["%s.%s" % (appName, space.getProperty('defaultDomain'))]
+
+
+print "Creating discovery application"
+cfClient.createApplication(appName, uris=uris)
+print "Binding db service"
+cfClient.bindService(appName, deployed.getProperty('cloudFoundryDbService'))
+
+print "Uploading discovery application code"
+cfClient.uploadApplication(appName, File('ext/cloudfoundry/discoveryapp'))
+print "Starting discovery application"
+cfClient.startApplication(appName)
+
+print "Fetch information from http://%s" % uris[0]
+
+retryCount = 0
+while retryCount < 20:
+    req = urllib2.Request("http://%s" % uris[0])
+    try:
+        response = urllib2.urlopen(req)
+        vcapServices = json.load(response)
+        break
+    except urllib2.HTTPError, e:
+        print "failed to connect to discovery application. will retry in 5 secondes"
+        time.sleep(5)
+        retryCount += 1
+
+if retryCount == 20:
+    raise Exception("Could not access discovery application")
+
+print "Find database credentials"
+for vcapService in vcapServices.keys():
+    for vcapServiceInstance in vcapServices[vcapService]:
+        if "mysql" in vcapServiceInstance["tags"]:
+            print "Found database creds"
+            creds = vcapServiceInstance["credentials"]
+            context.setAttribute("%s-username" % vcapServiceInstance["name"], creds["username"])
+            context.setAttribute("%s-password" % vcapServiceInstance["name"], creds["password"])
+            context.setAttribute("%s-host" % vcapServiceInstance["name"], creds["hostname"])
+            context.setAttribute("%s-db" % vcapServiceInstance["name"], creds["name"])
+
+cfClient.logout()

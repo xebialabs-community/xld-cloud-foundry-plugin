@@ -1,0 +1,59 @@
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.xebialabs.com/deployit/synthetic" xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+    <type type="cf.Space" extends="cf.VirtualContainer" >
+        <property name="org"/>
+        <property name="apiEndpoint"/>
+        <property name="spaceName"/>
+        <property name="username"/>
+        <property name="password" password="true"/>
+        <property name="defaultDomain"/>
+    </type>
+
+    <type-modification type="jee.War">
+        <property name="contextRoot" required="false" description="Default root to the default domain"/>
+
+    </type-modification>
+
+    <type type="cf.WarModule" extends="udm.BaseDeployedArtifact" deployable-type="cf.War" container-type="cf.Space">
+        <generate-deployable type="cf.War" extends="jee.War"/>
+
+        <property name="contextRoot" required="false" description="Default root to the default domain"/>
+        <property name="bindings" kind="set_of_string" required="false"/>
+    </type>
+
+    <type type="cf.Service" extends="udm.BaseDeployed" deployable-type="cf.ServiceSpec" container-type="cf.Space">
+        <generate-deployable type="cf.ServiceSpec" extends="udm.BaseDeployable"/>
+        <property name="instanceName" />
+        <property name="serviceLabel" />
+        <property name="servicePlan" />
+    </type>
+
+    <type-modification type="sql.SqlScripts">
+        <property name="cloudFoundryDbService" required="false" category="CloudFoundry"/>
+    </type-modification>
+
+    <type type="cf.SqlClient" extends="generic.Container" virtual="true">
+        <property name="space" kind="ci" referenced-type="cf.Space"/>
+    </type>
+
+    <type type="cf.MySqlClient" extends="cf.SqlClient">
+        <property name="clientWrapperScript" hidden="true" default="cloudfoundry/CfMySqlClient" />
+    </type>
+
+    <type type="cf.ExecutedSqlScripts" extends="generic.ExecutedFolder" deployable-type="sql.SqlScripts" container-type="cf.SqlClient">
+
+        <property name="cloudFoundryDbService" required="false" category="CloudFoundry"/>
+
+        <property name="destroyOrder" kind="integer" hidden="true" default="40" />
+        <property name="createVerb" hidden="true" default="Run" />
+        <property name="destroyVerb" hidden="true" default="Rollback" />
+        <property name="executorScript" hidden="true" default="${deployed.container.clientWrapperScript}" />
+        <property name="scriptRecognitionRegex" hidden="true" default="(?!.*-rollback\.sql)([0-9]*-.*)\.sql" />
+        <property name="rollbackScriptRecognitionRegex" hidden="true" default="([0-9]*-.*-rollback)\.sql" />
+        <property name="rollbackScriptPostfix" hidden="true" default="-rollback.sql" />
+    </type>
+
+
+
+</synthetic>
