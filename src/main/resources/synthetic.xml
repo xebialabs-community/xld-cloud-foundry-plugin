@@ -16,12 +16,7 @@
         <property name="password" password="true"/>
         <property name="defaultDomain"/>
 
-        <method name="CheckConnection" delegate="localShellScript" script="cloudfoundry/checkconnection.sh.ftl" classpathResources="cloudfoundry/checkconnection.py,cloudfoundry/util.py,cloudfoundry/client.py,cloudfoundry/__init__.py">
-            <parameters>
-                <parameter name="pluginFolder" />
-                <parameter name="libFolder" />
-            </parameters>
-        </method>
+        <method name="CheckConnection" delegate="jython" task-description="Check connection for cloudfoundry space" script="cloudfoundry/checkconnection.py" />
     </type>
 
     <type-modification type="jee.War">
