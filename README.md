@@ -25,6 +25,7 @@ The Cloud Foundry plugin is a XL Deploy plugin that adds capability for deployin
 	    * yamlbeans-1.06.jar
 	    * spring-core-3.2.2.RELEASE.jar (should be under plugins)
 	    * spring-web-3.2.2.RELEASE.jar (should replace the existing spring-web under `lib`, and also be put under `lib`)
+	    * hotfix-basestep-ctx-public.jar (should be put under the hotfix).
 
 # Installation #
 

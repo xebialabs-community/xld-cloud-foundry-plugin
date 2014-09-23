@@ -29,7 +29,7 @@
                 <order>20</order>
                 <script-path>cloudfoundry/stop-application.py</script-path>
                 <jython-context>
-                    <app expression="true">deployedApplication</app>
+                    <deployed expression="true">deployed</deployed>
                 </jython-context>
             </jython>
 
@@ -38,7 +38,7 @@
                 <order>45</order>
                 <script-path>cloudfoundry/bind-services.py</script-path>
                 <jython-context>
-                    <app expression="true">deployedApplication</app>
+                    <deployed expression="true">deployed</deployed>
                 </jython-context>
             </jython>
 
@@ -47,7 +47,7 @@
                 <order>70</order>
                 <script-path>cloudfoundry/install-war.py</script-path>
                 <jython-context>
-                    <app expression="true">deployedApplication</app>
+                    <deployed expression="true">deployed</deployed>
                 </jython-context>
             </jython>
 
@@ -56,7 +56,7 @@
                 <order>90</order>
                 <script-path>cloudfoundry/start-application.py</script-path>
                 <jython-context>
-                    <app expression="true">deployedApplication</app>
+                    <deployed expression="true">deployed</deployed>
                 </jython-context>
             </jython>
         </steps>
@@ -73,7 +73,7 @@
                 <order>40</order>
                 <script-path>cloudfoundry/uninstall-war.py</script-path>
                 <jython-context>
-                    <app expression="true">deployedApplication</app>
+                    <deployed expression="true">deployed</deployed>
                 </jython-context>
             </jython>
         </steps>
@@ -90,7 +90,7 @@
                 <order>44</order>
                 <script-path>cloudfoundry/install-service.py</script-path>
                 <jython-context>
-                    <app expression="true">deployedApplication</app>
+                    <deployed expression="true">deployed</deployed>
                 </jython-context>
             </jython>
         </steps>
@@ -107,7 +107,7 @@
                 <order>42</order>
                 <script-path>cloudfoundry/uninstall-service.py</script-path>
                 <jython-context>
-                    <app expression="true">deployedApplication</app>
+                    <deployed expression="true">deployed</deployed>
                 </jython-context>
             </jython>
         </steps>
@@ -126,7 +126,7 @@
                 <script-path>cloudfoundry/discover-services-metadata.py</script-path>
                 <order>48</order>
                 <jython-context>
-                    <app expression="true">deployedApplication</app>
+                    <deployed expression="true">deployed</deployed>
                 </jython-context>
             </jython>
 
@@ -135,7 +135,7 @@
                 <script-path>cloudfoundry/delete-discovery-app.py</script-path>
                 <order>52</order>
                 <jython-context>
-                    <app expression="true">deployedApplication</app>
+                    <deployed expression="true">deployed</deployed>
                 </jython-context>
             </jython>
         </steps>
@@ -152,7 +152,7 @@
                 <script-path>cloudfoundry/discover-services-metadata.py</script-path>
                 <order>39</order>
                 <jython-context>
-                    <app expression="true">deployedApplication</app>
+                    <deployed expression="true">deployed</app>
                 </jython-context>
             </jython>
 
@@ -161,7 +161,7 @@
                 <script-path>cloudfoundry/delete-discovery-app.py</script-path>
                 <order>41</order>
                 <jython-context>
-                    <app expression="true">deployedApplication</app>
+                    <deployed expression="true">deployed</app>
                 </jython-context>
             </jython>
         </steps>

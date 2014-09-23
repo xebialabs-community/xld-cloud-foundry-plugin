@@ -15,6 +15,13 @@
         <property name="username"/>
         <property name="password" password="true"/>
         <property name="defaultDomain"/>
+
+        <method name="CheckConnection" delegate="localShellScript" script="cloudfoundry/checkconnection.sh.ftl" classpathResources="cloudfoundry/checkconnection.py,cloudfoundry/util.py,cloudfoundry/client.py,cloudfoundry/__init__.py">
+            <parameters>
+                <parameter name="pluginFolder" />
+                <parameter name="libFolder" />
+            </parameters>
+        </method>
     </type>
 
     <type-modification type="jee.War">
