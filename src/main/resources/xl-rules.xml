@@ -34,7 +34,7 @@
             </jython>
 
             <jython>
-                <description expression="true">"Bind services %s to [%s]" % (deployed.getProperty('bindings') , deployed.name)</description>
+                <description expression="true">"Bind services [%s] to [%s]" % (', '.join(deployed.getProperty('bindings')) , deployed.name)</description>
                 <order>45</order>
                 <script-path>cloudfoundry/bind-services.py</script-path>
                 <jython-context>
@@ -152,7 +152,7 @@
                 <script-path>cloudfoundry/discover-services-metadata.py</script-path>
                 <order>39</order>
                 <jython-context>
-                    <deployed expression="true">deployed</app>
+                    <deployed expression="true">deployed</deployed>
                 </jython-context>
             </jython>
 
@@ -161,7 +161,7 @@
                 <script-path>cloudfoundry/delete-discovery-app.py</script-path>
                 <order>41</order>
                 <jython-context>
-                    <deployed expression="true">deployed</app>
+                    <deployed expression="true">deployed</deployed>
                 </jython-context>
             </jython>
         </steps>
