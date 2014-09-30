@@ -131,6 +131,10 @@ class CFClient(object):
                 time.sleep(2)
         return False
 
+    def scaleApplication(self, appName, instances, memory):
+        self._client.updateApplicationInstances(appName, instances)
+        self._client.updateApplicationMemory(appName, memory)
+
     def _serviceInstanceExists(self, instanceName):
         return self._client.getService(instanceName) is not None
 

@@ -29,6 +29,13 @@
 
         <property name="contextRoot" required="false" description="Default root to the default domain"/>
         <property name="bindings" kind="set_of_string" required="false"/>
+
+        <method name="Scale" delegate="jython" task-description="Scale instances and memory application" script="cloudfoundry/scale-application.py">
+            <parameters>
+                <parameter name="Instances" default="1" kind="integer" />
+                <parameter name="Memory" default="512" kind="integer" description="(MB)" />
+            </parameters>
+        </method>
     </type>
 
     <type type="cf.Service" extends="udm.BaseDeployed" deployable-type="cf.ServiceSpec" container-type="cf.Space">
