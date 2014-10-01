@@ -10,15 +10,16 @@ from cloudfoundry.client import CFClient
 class CFClientUtil(object):
 
     @staticmethod
-    def createClient(container, autologin=True):
-        client = CFClient.createClient(container.getProperty("apiEndpoint"), container.getProperty("username"), container.getProperty("password"),
-                                       org=container.getProperty("org"), space=container.getProperty("spaceName"))
+    def createSpaceClient(container, autologin=True):
+        organization = container.getProperty("organization")
+        client = CFClient.createClient(organization.getProperty("apiEndpoint"), organization.getProperty("username"), organization.getProperty("password"),
+                                       org=organization.getProperty("organizationName"), space=container.getProperty("spaceName"))
         if autologin: client.login()
         return client
 
 
     @staticmethod
-    def createClientWithoutOrgSpace(container, autologin=True):
+    def createOrganizationClient(container, autologin=True):
         client = CFClient.createClient(container.getProperty("apiEndpoint"), container.getProperty("username"), container.getProperty("password"))
         if autologin: client.login()
         return client

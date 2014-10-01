@@ -8,15 +8,35 @@
 <synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://www.xebialabs.com/deployit/synthetic" xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
 
-    <type type="cf.Space" extends="cf.VirtualContainer" >
-        <property name="org"/>
+    <type type="cf.Organization" extends="cf.VirtualContainer" >
+        <property name="organizationName"/>
         <property name="apiEndpoint"/>
-        <property name="spaceName"/>
         <property name="username"/>
         <property name="password" password="true"/>
         <property name="defaultDomain"/>
 
-        <method name="CheckConnection" delegate="jython" task-description="Check connection for cloudfoundry space" script="cloudfoundry/checkconnection.py" />
+        <method name="CheckConnection" delegate="jython" task-description="Check connection for cloudfoundry space" script="cloudfoundry/check-organization-connection.py" />
+
+        <method name="DiscoverSpaces" delegate="jython" task-description="Discover spaces from an organization" script="cloudfoundry/discover-spaces.py" />
+        <method name="DiscoverDomains" delegate="jython" task-description="Discover domains from an organization" script="cloudfoundry/discover-domains.py" />
+        <method name="CreateSpace" delegate="jython" task-description="Create a new space for this organization" script="cloudfoundry/create-space.py">
+            <parameters>
+                <parameter name="spaceName" kind="string" />
+            </parameters>
+        </method>
+    </type>
+
+    <type type="cf.Space" extends="cf.VirtualSpaceContainer" >
+        <property name="organization" kind="ci" referenced-type="cf.Organization" as-containment="true" />
+        <property name="spaceName"/>
+
+        <method name="CheckConnection" delegate="jython" task-description="Check connection for cloudfoundry space" script="cloudfoundry/check-space-connection.py" />
+    </type>
+
+    <type type="cf.Domain" extends="cf.VirtualDomainContainer" >
+        <property name="organization" kind="ci" referenced-type="cf.Organization" as-containment="true"/>
+        <property name="domainName"/>
+
     </type>
 
     <type-modification type="jee.War">

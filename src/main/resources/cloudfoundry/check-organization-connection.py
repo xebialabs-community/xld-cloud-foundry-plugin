@@ -7,10 +7,7 @@
 from cloudfoundry.util import CFClientUtil
 import sys
 
-cfClient = CFClientUtil.createSpaceClient(deployed.container)
+cfClient = CFClientUtil.createOrganizationClient(thisCi)
 
-for binding in deployed.getProperty('bindings'):
-	print "Binding service instance [%s]" % binding
-	cfClient.bindService(deployed.name, binding)
-
-cfClient.logout()
+if cfClient is None:
+	sys.exit("Could not connect to cloudfoundry organization")

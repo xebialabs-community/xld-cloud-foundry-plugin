@@ -37,6 +37,20 @@ class CFClient(object):
     def logout(self):
         self._client.logout()
 
+    def discoverSpaces(self, organizationName):
+        spaces = []
+        for space in self._client.spaces:
+            if space.organization.name == organizationName:
+                spaces.append(space)
+        return spaces
+
+    def discoverDomains(self, organizationName):
+        domains = []
+        for domain in self._client.domains:
+            if domain.organization.name == organizationName:
+                domains.append(domain)
+        return domains
+
     def createSpace(self, orgName, spaceName):
         org_uuid = None
         for org in self._client.organizations:
@@ -162,4 +176,3 @@ class CFClient(object):
     def setEnvironmentVariables(self, appName, vars):
         if self.applicationExists(appName):
             self._client.updateApplicationEnv(appName, vars)
-
