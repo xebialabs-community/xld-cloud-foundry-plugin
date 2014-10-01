@@ -15,14 +15,14 @@ The Cloud Foundry plugin is a XL Deploy plugin that adds capability for deployin
 	* **XL Plugins**
 		* Database Plugin
 	* **Additional Runtime Libraries**
-		* protobuf-java-2.5.0.jar
-		* tomcat-embed-websocket-8.0.8.jar
-		* cloudfoundry-client-lib-1.0.3.jar
-		* jackson-core-asl-1.9.2.jar
-		* spring-security-oauth2-1.0.5.RELEASE.jar       
-		* jackson-mapper-asl-1.9.2.jar
-		* tomcat-embed-core-8.0.8.jar
-	    * yamlbeans-1.06.jar
+		* protobuf-java-2.5.0.jar (should be under plugins)
+		* tomcat-embed-websocket-8.0.8.jar (should be under plugins)
+		* cloudfoundry-client-lib-1.0.3.jar (should be under plugins)
+		* jackson-core-asl-1.9.2.jar (should be under plugins)
+		* spring-security-oauth2-1.0.5.RELEASE.jar (should be under plugins)     
+		* jackson-mapper-asl-1.9.2.jar (should be under plugins)
+		* tomcat-embed-core-8.0.8.jar (should be under plugins)
+	    * yamlbeans-1.06.jar (should be under plugins)
 	    * spring-core-3.2.2.RELEASE.jar (should be under plugins)
 	    * spring-web-3.2.2.RELEASE.jar (should replace the existing spring-web under `lib`, and also be put under `lib`)
 	    * hotfix-basestep-ctx-public.jar (should be put under the hotfix).
@@ -30,7 +30,13 @@ The Cloud Foundry plugin is a XL Deploy plugin that adds capability for deployin
 
 # Installation #
 
-Place the plugin JAR file into your `SERVER_HOME/plugins` directory.   Make sure you have additional runtime libiraries mentioned in the requirements section also installed in the same directory.
+Place the plugin JAR file into your `SERVER_HOME/plugins` directory.   Make sure you have additional runtime libiraries mentioned in the requirements section also installed in the correct directory.
 
 Extract `cloudfoundry/discoveryapp/index.php` from the JAR and copy it to `SERVER_HOME/ext/cloudfoundry/discoveryapp/index.php`
 
+# Usage #
+
+1. Go to `Repository - Infrastructure`, create a new `cf.Organization` and discover the spaces and domains.
+2. Create an environment under `Repository - Environments`
+3. Create an application with `cf.ServiceSpec` and `cf.War` as deployables.
+4. Start deploying
