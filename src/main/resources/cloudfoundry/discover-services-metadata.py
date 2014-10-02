@@ -10,8 +10,9 @@ import simplejson as json
 import urllib2
 import time
 
-space = deployed.container
-cfClient = CFClientUtil.createClient(space)
+sqlClient = deployed.container
+space = sqlClient.getProperty("space")
+cfClient = CFClientUtil.createSpaceClient(space)
 
 appName = "discovery-%s" % deployed.name
 uris = ["%s.%s" % (appName, space.getProperty("organization").getProperty('defaultDomain'))]

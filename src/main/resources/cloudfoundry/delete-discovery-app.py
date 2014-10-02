@@ -6,7 +6,9 @@
 
 from cloudfoundry.util import CFClientUtil
 
-cfClient = CFClientUtil.createSpaceClient(deployed.container)
+sqlClient = deployed.container
+space = sqlClient.getProperty("space")
+cfClient = CFClientUtil.createSpaceClient(space)
 
 appName = "discovery-%s" % deployed.name
 
