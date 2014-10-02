@@ -47,7 +47,7 @@
     <type type="cf.WarModule" extends="udm.BaseDeployedArtifact" deployable-type="cf.War" container-type="cf.Space">
         <generate-deployable type="cf.War" extends="jee.War"/>
 
-        <property name="contextRoot" required="false" description="Default root to the default domain"/>
+        <property name="contextRoot" required="true" description="Default root to the default domain"/>
         <property name="bindings" kind="set_of_string" required="false"/>
 
         <method name="Scale" delegate="jython" task-description="Scale instances and memory application" script="cloudfoundry/scale-application.py">
