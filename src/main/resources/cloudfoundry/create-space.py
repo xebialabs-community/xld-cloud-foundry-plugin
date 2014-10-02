@@ -7,12 +7,10 @@
 from cloudfoundry.util import CFClientUtil
 import sys
 
-cfClient = CFClientUtil.createSpaceClient(thisCi.container)
+cfClient = CFClientUtil.createOrganizationClient(thisCi)
 
 if cfClient is None:
-	sys.exit("Could not connect to cloudfoundry space")
+	sys.exit("Could not connect to cloudfoundry organization")
 
-
-cfClient.scaleApplication(thisCi.name, parameters["Instances"], parameters["Memory"])
-
-cfClient.logout()
+if not cfClient.createSpace(thisCi.getProperty("organizationName"), parameters["spaceName"]):
+    print "Failed to create space [%s] for organization [%s]" % (parameters["Instances"], thisCi.getProperty("organizationName"))
