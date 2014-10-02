@@ -34,6 +34,10 @@ Place the plugin JAR file into your `SERVER_HOME/plugins` directory.   Make sure
 
 Extract `cloudfoundry/discoveryapp/index.php` from the JAR and copy it to `SERVER_HOME/ext/cloudfoundry/discoveryapp/index.php`
 
+# Upgrade #
+
+* When upgrading from a version before 4.5.4 to a version >=4.5.4, be aware that the containers under Infrastructure have changed. From 4.5.4+ the Organizations, Spaces and Domains have been split into different CI. If you want to upgrade, you have to start from a clean repository (Delete all cf.Space instances), install 4.5.4+ and discover the domains and spaces.
+
 # Usage #
 
 1. Go to `Repository - Infrastructure`, create a new `cf.Organization` and discover the spaces and domains.

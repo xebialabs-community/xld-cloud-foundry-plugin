@@ -13,11 +13,11 @@ def create_or_read(ci):
 
 def reverse_engineer_domain(domain, organizationId):
     organizationCi = create_or_read(new_instance(organizationId, "cf.Organization"))
-    domain = new_instance("%s/%s" % (organizationId, domain.name), "cf.Domain")
-    if not repositoryService.exists(domain.id):
-        domain.setProperty("domainName", domain.name)
-        domain.setProperty("organization", organizationCi)
-        repositoryService.create([domain])
+    domainCi = new_instance("%s/%s" % (organizationId, domain.name), "cf.Domain")
+    if not repositoryService.exists(domainCi.id):
+        domainCi.setProperty("domainName", domain.name)
+        create_or_read(domainCi)
+        print "Domain [%s] has been discovered" % domain.name
 
 
 cfClient = CFClientUtil.createOrganizationClient(thisCi)
@@ -28,4 +28,4 @@ if cfClient is None:
 domains = cfClient.discoverDomains(thisCi.getProperty("organizationName"))
 
 for domain in domains:
-	reverse_engineer_domain(domain, thisCi.getProperty("id"))
+	reverse_engineer_domain(domain, thisCi.id)

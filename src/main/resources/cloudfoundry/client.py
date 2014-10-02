@@ -9,6 +9,7 @@ from org.cloudfoundry.client.lib.domain import CloudEntity, CloudService, CloudA
 from org.cloudfoundry.client.lib.rest import CloudControllerClientFactory
 from java.net import URI
 from java.util import HashMap
+from java.lang import String
 import time
 
 
@@ -47,7 +48,7 @@ class CFClient(object):
     def discoverDomains(self, organizationName):
         domains = []
         for domain in self._client.domains:
-            if domain.organization.name == organizationName:
+            if domain.owner.name == "none" or domain.owner.name == organizationName:
                 domains.append(domain)
         return domains
 
@@ -102,6 +103,8 @@ class CFClient(object):
         if not self.applicationExists(appName):
             print "Creating application [%s] with memory [%s] and the following uris %s" % (appName, memory, uris)
             self._client.createApplication(appName, Staging(), memory, uris, None)
+        else:
+            self._client.updateApplicationUris(appName,uris)
 
     def deleteApplication(self, appName):
         if self.applicationExists(appName):
