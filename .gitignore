@@ -1,2 +1,4 @@
 .gradle
 build
+cloud-foundry-plugin.iml
+.idea/
