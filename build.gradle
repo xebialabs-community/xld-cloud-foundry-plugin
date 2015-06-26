@@ -29,75 +29,26 @@ repositories {
     }
 }
 
-configurations {
-  compile {
-    transitive = false
-  }
-  itestCompile { extendsFrom testCompile }
-    itestRuntime { extendsFrom itestCompile, testRuntime }
-}
 
 dependencies {
-  compile 'org.cloudfoundry:cloudfoundry-client-lib:1.0.3'
-  compile 'org.springframework.security.oauth:spring-security-oauth2:1.0.5.RELEASE'
+    distBundle 'org.cloudfoundry:cloudfoundry-client-lib:1.1.2'
+    distBundle 'com.google.protobuf:protobuf-java:2.6.1'
+    distBundle 'org.apache.tomcat.embed:tomcat-embed-websocket:8.0.15'
+    distBundle 'org.apache.tomcat.embed:tomcat-embed-core:8.0.15'
+    distBundle 'com.fasterxml.jackson.core:jackson-core:2.3.3'
+    distBundle 'com.fasterxml.jackson.core:jackson-databind:2.3.3'
+    distBundle 'org.springframework.security.oauth:spring-security-oauth2:2.0.4.RELEASE'
+    distBundle 'com.esotericsoftware.yamlbeans:yamlbeans:1.06'
 
+    compile "com.xebialabs.deployit:udm-plugin-api:$apiVersion"
+    compile "com.xebialabs.deployit:engine-spi:$apiVersion"
+    compile "com.xebialabs.deployit:engine-api:$apiVersion"
+    compile "com.google.guava:guava:10.0.1"
 
-
-  compile "com.xebialabs.deployit:udm-plugin-api:$apiVersion"
-  compile "com.xebialabs.deployit:engine-spi:$apiVersion"
-  compile "com.xebialabs.deployit:engine-api:$apiVersion"
-  compile "com.google.guava:guava:10.0.1"
-  testCompile "org.hamcrest:hamcrest-core:1.2.1"
-  testCompile "org.hamcrest:hamcrest-library:1.2.1"
-  testCompile "com.google.guava:guava:10.0.1"
-  testCompile "junit:junit-dep:4.10"
-  itestCompile fileTree(dir: "$xldeployHome/lib", include: ['*.jar'])
 }
 
-sourceSets {
-        itest {
-            java {
-                srcDirs = ['src/test/itest']
-            }
-            compileClasspath = sourceSets.main.output + configurations.testCompile + configurations.itestCompile
-            runtimeClasspath = sourceSets.itest.output + configurations.itestCompile + sourceSets.main.output + configurations.itestRuntime
-        }
-}
-
-import org.apache.tools.ant.filters.*
- 
-processResources {
-    filter ReplaceTokens, tokens: [
-        "project.version": project.property("version"),
-        "project.artifactId": project.property("name")
-    ]
-}
-
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
-    classifier = 'sources'
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = "javadoc"
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives sourcesJar, javadocJar
-}
 
 license {
     header rootProject.file('src/main/license/xebialabs_community.license')
     strictCheck true
 }
-
-task itest(dependsOn: 'itestClasses',type: Test) {
-        testClassesDir = sourceSets.itest.output.classesDir
-        classpath = sourceSets.itest.runtimeClasspath
-}  
-
-itest.configure {
-        useJUnit() {
-        }
-}   
