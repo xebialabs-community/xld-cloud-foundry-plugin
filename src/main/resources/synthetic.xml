@@ -15,22 +15,22 @@
         <property name="password" password="true"/>
         <property name="defaultDomain"/>
 
-        <!--<method name="CheckConnection" delegate="jython" task-description="Check connection for cloudfoundry space" script="cloudfoundry/check-organization-connection.py" />-->
+        <method name="CheckConnection" delegate="jythonScript" description="Check connection for cloudfoundry space" script="cloudfoundry/check-organization-connection.py" />
 
-        <!--<method name="DiscoverSpaces" delegate="jython" task-description="Discover spaces from an organization" script="cloudfoundry/discover-spaces.py" />-->
-        <!--<method name="DiscoverDomains" delegate="jython" task-description="Discover domains from an organization" script="cloudfoundry/discover-domains.py" />-->
-        <!--<method name="CreateSpace" delegate="jython" task-description="Create a new space for this organization" script="cloudfoundry/create-space.py">-->
-            <!--<parameters>-->
-                <!--<parameter name="spaceName" kind="string" />-->
-            <!--</parameters>-->
-        <!--</method>-->
+        <method name="DiscoverSpaces" delegate="jythonScript" description="Discover spaces from an organization" script="cloudfoundry/discover-spaces.py" />
+        <method name="DiscoverDomains" delegate="jythonScript" description="Discover domains from an organization" script="cloudfoundry/discover-domains.py" />
+        <method name="CreateSpace" delegate="jythonScript" description="Create a new space for this organization" script="cloudfoundry/create-space.py">
+            <parameters>
+                <parameter name="spaceName" kind="string" />
+            </parameters>
+        </method>
     </type>
 
     <type type="cf.Space" extends="cf.VirtualSpaceContainer" >
         <property name="organization" kind="ci" referenced-type="cf.Organization" as-containment="true" />
         <property name="spaceName"/>
 
-        <!--<method name="CheckConnection" delegate="jython" task-description="Check connection for cloudfoundry space" script="cloudfoundry/check-space-connection.py" />-->
+        <method name="CheckConnection" delegate="jythonScript" description="Check connection for cloudfoundry space" script="cloudfoundry/check-space-connection.py" />
     </type>
 
     <type type="cf.Domain" extends="cf.VirtualDomainContainer" >
@@ -50,12 +50,12 @@
         <property name="contextRoot" required="true" description="Default root to the default domain"/>
         <property name="bindings" kind="set_of_string" required="false"/>
 
-        <!--<method name="Scale" delegate="jython" task-description="Scale instances and memory application" script="cloudfoundry/scale-application.py">-->
-            <!--<parameters>-->
-                <!--<parameter name="Instances" default="1" kind="integer" />-->
-                <!--<parameter name="Memory" default="512" kind="integer" description="(MB)" />-->
-            <!--</parameters>-->
-        <!--</method>-->
+        <method name="Scale" delegate="jythonScript" description="Scale instances and memory application" script="cloudfoundry/scale-application.py">
+            <parameters>
+                <parameter name="Instances" default="1" kind="integer" />
+                <parameter name="Memory" default="512" kind="integer" description="(MB)" />
+            </parameters>
+        </method>
     </type>
 
     <type type="cf.Service" extends="udm.BaseDeployed" deployable-type="cf.ServiceSpec" container-type="cf.Space">

@@ -13,6 +13,6 @@ if cfClient is None:
 	sys.exit("Could not connect to cloudfoundry space")
 
 
-cfClient.scaleApplication(thisCi.name, parameters["Instances"], parameters["Memory"])
+cfClient.scaleApplication(thisCi.name, params["Instances"], params["Memory"])
 
 cfClient.logout()
