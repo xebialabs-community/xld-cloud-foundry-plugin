@@ -1,4 +1,6 @@
 .gradle
 build
-xld-cloud-foundry-plugin.iml
+*.iml
+*.ipr
+*.iws
 .idea/
