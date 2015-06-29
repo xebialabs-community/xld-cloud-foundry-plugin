@@ -32,13 +32,13 @@ repositories {
 
 dependencies {
     distBundle 'org.cloudfoundry:cloudfoundry-client-lib:1.1.2'
-    distBundle 'com.google.protobuf:protobuf-java:2.6.1'
-    distBundle 'org.apache.tomcat.embed:tomcat-embed-websocket:8.0.15'
-    distBundle 'org.apache.tomcat.embed:tomcat-embed-core:8.0.15'
-    distBundle 'com.fasterxml.jackson.core:jackson-core:2.3.3'
-    distBundle 'com.fasterxml.jackson.core:jackson-databind:2.3.3'
-    distBundle 'org.springframework.security.oauth:spring-security-oauth2:2.0.4.RELEASE'
-    distBundle 'com.esotericsoftware.yamlbeans:yamlbeans:1.06'
+//    distBundle 'com.google.protobuf:protobuf-java:2.6.1'
+//    distBundle 'org.apache.tomcat.embed:tomcat-embed-websocket:8.0.15'
+//    distBundle 'org.apache.tomcat.embed:tomcat-embed-core:8.0.15'
+//    distBundle 'com.fasterxml.jackson.core:jackson-core:2.3.3'
+//    distBundle 'com.fasterxml.jackson.core:jackson-databind:2.3.3'
+//    distBundle 'org.springframework.security.oauth:spring-security-oauth2:2.0.4.RELEASE'
+//    distBundle 'com.esotericsoftware.yamlbeans:yamlbeans:1.06'
 
     compile "com.xebialabs.deployit:udm-plugin-api:$apiVersion"
     compile "com.xebialabs.deployit:engine-spi:$apiVersion"
