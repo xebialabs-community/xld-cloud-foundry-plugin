@@ -118,13 +118,38 @@
         <conditions>
             <type>cf.ExecutedSqlScripts</type>
             <operation>CREATE</operation>
-            <operation>MODIFY</operation>
         </conditions>
         <steps>
             <jython>
                 <description expression="true">"Discover bound db services runtime metadata for space"</description>
                 <script-path>cloudfoundry/discover-services-metadata.py</script-path>
                 <order>48</order>
+                <jython-context>
+                    <deployed expression="true">deployed</deployed>
+                </jython-context>
+            </jython>
+
+            <jython>
+                <description expression="true">"Delete discovery application from space"</description>
+                <script-path>cloudfoundry/delete-discovery-app.py</script-path>
+                <order>52</order>
+                <jython-context>
+                    <deployed expression="true">deployed</deployed>
+                </jython-context>
+            </jython>
+        </steps>
+    </rule>
+
+    <rule name="cf_sql_update_discovery" scope="deployed">
+        <conditions>
+            <type>cf.ExecutedSqlScripts</type>
+            <operation>MODIFY</operation>
+        </conditions>
+        <steps>
+            <jython>
+                <description expression="true">"Discover bound db services runtime metadata for space"</description>
+                <script-path>cloudfoundry/discover-services-metadata.py</script-path>
+                <order>19</order>
                 <jython-context>
                     <deployed expression="true">deployed</deployed>
                 </jython-context>
@@ -150,18 +175,18 @@
             <jython>
                 <description expression="true">"Discover bound db services runtime metadata for space"</description>
                 <script-path>cloudfoundry/discover-services-metadata.py</script-path>
-                <order>39</order>
+                <order>19</order>
                 <jython-context>
-                    <deployed expression="true">deployed</deployed>
+                    <deployed expression="true">previousDeployed</deployed>
                 </jython-context>
             </jython>
 
             <jython>
                 <description expression="true">"Delete discovery application from space"</description>
                 <script-path>cloudfoundry/delete-discovery-app.py</script-path>
-                <order>41</order>
+                <order>38</order>
                 <jython-context>
-                    <deployed expression="true">deployed</deployed>
+                    <deployed expression="true">previousDeployed</deployed>
                 </jython-context>
             </jython>
         </steps>
