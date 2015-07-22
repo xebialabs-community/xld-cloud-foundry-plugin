@@ -10,7 +10,7 @@ sqlClient = deployed.container
 space = sqlClient.getProperty("space")
 cfClient = CFClientUtil.createSpaceClient(space)
 
-appName = "discovery-%s" % deployed.name
+appName = "discovery-%s-%s" % (deployed.name, space.getProperty('spaceName'))
 
 print "Delete discovery application"
 cfClient.deleteApplication(appName)

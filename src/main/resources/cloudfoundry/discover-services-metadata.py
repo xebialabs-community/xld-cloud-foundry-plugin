@@ -14,7 +14,7 @@ sqlClient = deployed.container
 space = sqlClient.getProperty("space")
 cfClient = CFClientUtil.createSpaceClient(space)
 
-appName = "discovery-%s" % deployed.name
+appName = "discovery-%s-%s" % (deployed.name, space.getProperty('spaceName'))
 uris = ["%s.%s" % (appName, space.getProperty("organization").getProperty('defaultDomain'))]
 
 
