@@ -69,11 +69,11 @@
         </conditions>
         <steps>
             <jython>
-                <description expression="true">"Undeploy " + deployed.name + " from " + deployed.container.name</description>
+                <description expression="true">"Undeploy " + previousDeployed.name + " from " + previousDeployed.container.name</description>
                 <order>40</order>
                 <script-path>cloudfoundry/uninstall-war.py</script-path>
                 <jython-context>
-                    <deployed expression="true">deployed</deployed>
+                    <deployed expression="true">previousDeployed</deployed>
                 </jython-context>
             </jython>
         </steps>
@@ -103,11 +103,11 @@
         </conditions>
         <steps>
             <jython>
-                <description expression="true">"Remove service " + deployed.name + " from " + deployed.container.name</description>
+                <description expression="true">"Remove service " + previousDeployed.name + " from " + previousDeployed.container.name</description>
                 <order>42</order>
                 <script-path>cloudfoundry/uninstall-service.py</script-path>
                 <jython-context>
-                    <deployed expression="true">deployed</deployed>
+                    <deployed expression="true">previousDeployed</deployed>
                 </jython-context>
             </jython>
         </steps>
@@ -166,10 +166,4 @@
             </jython>
         </steps>
     </rule>
-
-
-
-
-
-
 </rules>
