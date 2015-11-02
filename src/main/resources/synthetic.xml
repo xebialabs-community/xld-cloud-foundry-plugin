@@ -69,6 +69,8 @@
 
     <type-modification type="sql.SqlScripts">
         <property name="cloudFoundryDbService" required="false" category="CloudFoundry"/>
+        <property name="retrialCount" kind="integer" required="true" default="30" category="CloudFoundry" />
+        <property name="waitTime" kind="integer" required="true" default="2" category="CloudFoundry" />
     </type-modification>
 
     <type type="cf.SqlClient" extends="generic.Container" virtual="true">
@@ -82,6 +84,9 @@
     <type type="cf.ExecutedSqlScripts" extends="generic.ExecutedFolder" deployable-type="sql.SqlScripts" container-type="cf.SqlClient">
 
         <property name="cloudFoundryDbService" required="false" category="CloudFoundry"/>
+
+        <property name="retrialCount" kind="integer" required="true" default="30" category="CloudFoundry" />
+        <property name="waitTime" kind="integer" required="true" default="2" category="CloudFoundry" />
 
         <property name="destroyOrder" kind="integer" hidden="true" default="40" />
         <property name="createVerb" hidden="true" default="Run" />
