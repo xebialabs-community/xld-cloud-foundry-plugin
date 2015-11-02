@@ -13,7 +13,7 @@ apply plugin: 'maven'
 group = 'com.xebialabs.deployit.community'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
-version = '5.1.0'
+version = '5.1.1'
 def apiVersion = '4.0.1'
 def xldeployHome = "$System.env.XLDEPLOY_HOME"
 
@@ -37,10 +37,13 @@ configurations {
 
 
 dependencies {
-    distBundle 'org.cloudfoundry:cloudfoundry-client-lib:1.1.2'
+    distBundle 'org.cloudfoundry:cloudfoundry-client-lib:1.1.3'
+    distBundle 'org.apache.tomcat.embed:tomcat-embed-websocket:8.0.15'
+    distBundle 'org.apache.tomcat.embed:tomcat-embed-core:8.0.15'
     distBundle 'com.fasterxml.jackson.core:jackson-core:2.3.3'
     distBundle 'com.fasterxml.jackson.core:jackson-databind:2.3.3'
     distBundle 'com.fasterxml.jackson.core:jackson-annotations:2.3.0'
+    distBundle 'org.springframework.security.oauth:spring-security-oauth2:2.0.7.RELEASE'
 
     compile "com.xebialabs.deployit:udm-plugin-api:$apiVersion"
     compile "com.xebialabs.deployit:engine-spi:$apiVersion"

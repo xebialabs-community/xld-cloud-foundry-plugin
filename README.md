@@ -11,7 +11,7 @@ The Cloud Foundry plugin is a XL Deploy plugin that adds capability for deployin
 # Requirements #
 
 * **Requirements**
-	* **XL Deploy** 5.0.0+
+	* **XL Deploy** 5.1.0+
 	* **XL Plugins**
 		* Database Plugin
 	* **Additional Runtime Libraries**
@@ -20,7 +20,6 @@ The Cloud Foundry plugin is a XL Deploy plugin that adds capability for deployin
 	        * `jackson-core-2.3.3.jar`
 	        * `jackson-databind-2.3.3.jar`
 	    * hotfix-basestep-ctx-public.jar (should be put under the hotfix/plugins).
-	    * hotfix-DEPL-8507.jar (should be put under hotfix/plugins).
 
 # Installation #
 
