@@ -26,7 +26,7 @@ cfClient.bindService(appName, deployed.getProperty('cloudFoundryDbService'))
 print "Uploading discovery application code"
 cfClient.uploadApplication(appName, File('ext/cloudfoundry/discoveryapp'))
 print "Starting discovery application"
-cfClient.startApplication(appName)
+cfClient.startApplication(appName, deployed.retrialCount, deployed.waitTime)
 
 print "Fetch information from http://%s" % uris[0]
 

@@ -49,6 +49,8 @@
 
         <property name="contextRoot" required="true" description="Default root to the default domain"/>
         <property name="bindings" kind="set_of_string" required="false"/>
+        <property name="retrialCount" kind="integer" required="true" default="30" />
+        <property name="waitTime" kind="integer" required="true" default="2" />
 
         <method name="Scale" delegate="jythonScript" description="Scale instances and memory application" script="cloudfoundry/scale-application.py">
             <parameters>

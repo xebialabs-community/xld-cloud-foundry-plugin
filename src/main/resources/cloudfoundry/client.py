@@ -116,7 +116,8 @@ class CFClient(object):
     def _getApplication(self, appName):
         return self._client.getApplication(appName)
 
-    def startApplication(self, appName):
+    def startApplication(self, appName, retrialCount=30, waitTime=2):
+        time.sleep(waitTime)
         if CloudApplication.AppState.STARTED == self._getApplication(appName).state:
             print "Application [%s] already started" % appName
             return True
@@ -124,28 +125,29 @@ class CFClient(object):
             print "Starting application [%s] ..." % appName
             self._client.startApplication(appName)
             counter = 0
-            while True and counter < 30:
+            while True and counter < retrialCount:
                 counter += 1
                 if CloudApplication.AppState.STARTED == self._getApplication(appName).state:
                     print "Application [%s] started" % appName
                     return True
-                time.sleep(2)
+                time.sleep(waitTime)
 
         return False
 
-    def stopApplication(self, appName):
+    def stopApplication(self, appName, retrialCount=30, waitTime=2):
+        time.sleep(waitTime)
         if CloudApplication.AppState.STOPPED == self._getApplication(appName).state:
             print "Application [%s] already stopped" % appName
             return True
         else:
             self._client.stopApplication(appName)
             counter = 0
-            while True and counter < 30:
+            while True and counter < retrialCount:
                 counter += 1
                 if CloudApplication.AppState.STOPPED == self._getApplication(appName).state:
                     print "Application [%s] stopped" % appName
                     return True
-                time.sleep(2)
+                time.sleep(waitTime)
         return False
 
     def scaleApplication(self, appName, instances, memory):

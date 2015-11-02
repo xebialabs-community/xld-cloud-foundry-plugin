@@ -9,7 +9,7 @@ import sys
 
 cfClient = CFClientUtil.createSpaceClient(deployed.container)
 
-if not cfClient.stopApplication(deployed.name):
+if not cfClient.stopApplication(deployed.name, deployed.retrialCount, deployed.waitTime):
     print "Application [%s] failed to stop." % deployed.name
     cfClient.logout()
     sys.exit(1)
