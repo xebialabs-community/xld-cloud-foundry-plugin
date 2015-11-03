@@ -124,13 +124,17 @@ class CFClient(object):
         else:
             print "Starting application [%s] ..." % appName
             self._client.startApplication(appName)
+            print "Starting application [%s] called" % appName
             counter = 0
             while True and counter < retrialCount:
                 counter += 1
+                print "Waiting to check status application [%s] ..." % waitTime
+                time.sleep(waitTime)
+                print "Checking application status [%s] ..." % appName
                 if CloudApplication.AppState.STARTED == self._getApplication(appName).state:
                     print "Application [%s] started" % appName
                     return True
-                time.sleep(waitTime)
+                
 
         return False
 
