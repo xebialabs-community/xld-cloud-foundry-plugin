@@ -11,7 +11,7 @@ The Cloud Foundry plugin is a XL Deploy plugin that adds capability for deployin
 # Requirements #
 
 * **Requirements**
-	* **XL Deploy** 5.1.0+
+	* **XL Deploy** 5.5.0+
 	* **XL Plugins**
 		* Database Plugin
 	* **Additional Runtime Libraries**

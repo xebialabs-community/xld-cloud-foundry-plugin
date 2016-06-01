@@ -5,8 +5,9 @@
 #
 
 from cloudfoundry.util import CFClientUtil
+from java.io import File
 
 cfClient = CFClientUtil.createSpaceClient(deployed.container)
 print "Uploading ..."
-cfClient.uploadApplication(deployed.name, deployed.file.file)
+cfClient.uploadApplication(deployed.name, File(deployed.file.path))
 cfClient.logout()
