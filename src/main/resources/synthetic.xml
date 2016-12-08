@@ -11,9 +11,11 @@
     <type type="cf.Organization" extends="cf.VirtualContainer" >
         <property name="organizationName"/>
         <property name="apiEndpoint"/>
-        <property name="username"/>
-        <property name="password" password="true"/>
         <property name="defaultDomain"/>
+
+        <property name="username" category="security"/>
+        <property name="password" password="true" category="security"/>
+        <property name="ignoreSsl" required="false" kind="boolean" category="security" description="If true, self signed certificates will not be checked."/>
 
         <method name="CheckConnection" delegate="jythonScript" description="Check connection for cloudfoundry space" script="cloudfoundry/check-organization-connection.py" />
 

@@ -20,10 +20,10 @@ class CFClient(object):
         self._factory = factory
 
     @staticmethod
-    def createClient(apiEndpoint, username, password, org=None, space=None):
+    def createClient(apiEndpoint, username, password, ssl=False, org=None, space=None):
         apiEndpointUrl = URI(apiEndpoint).toURL()
         credentials = CloudCredentials(username, password)
-        factory = CloudControllerClientFactory(None, False)
+        factory = CloudControllerClientFactory(None, ssl)
 
         if space is not None and org is not None:
             client = factory.newCloudController(apiEndpointUrl, credentials, org, space)
