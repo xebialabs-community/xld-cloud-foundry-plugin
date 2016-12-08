@@ -7,7 +7,7 @@
 from cloudfoundry.util import CFClientUtil
 import sys
 
-cfClient = CFClientUtil.createSpaceClient(deployed.container)
+cfClient = CFClientUtil.create_space_client(deployed.container)
 uris = []
 if len(deployed.getProperty('contextRoot')) > 0:
 	uris = ["%s.%s" % (deployed.getProperty('contextRoot'), deployed.container.getProperty('organization').getProperty("defaultDomain"))]

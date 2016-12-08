@@ -7,7 +7,7 @@
 from cloudfoundry.util import CFClientUtil
 import sys
 
-cfClient = CFClientUtil.createSpaceClient(deployed.container)
+cfClient = CFClientUtil.create_space_client(deployed.container)
 
 for binding in deployed.getProperty('bindings'):
 	print "Binding service instance [%s]" % binding

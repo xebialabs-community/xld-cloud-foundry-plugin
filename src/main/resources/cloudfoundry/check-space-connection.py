@@ -7,7 +7,7 @@
 from cloudfoundry.util import CFClientUtil
 import sys
 
-cfClient = CFClientUtil.createSpaceClient(thisCi)
+cf_client = CFClientUtil.create_space_client(thisCi)
 
-if cfClient is None:
+if cf_client is None:
 	sys.exit("Could not connect to cloudfoundry space")
