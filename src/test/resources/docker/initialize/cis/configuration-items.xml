@@ -65,7 +65,8 @@
       <placeholders />
       <checksum>39450960248e2586119e54bc41d67a90443a632a</checksum>
       <fileUri>jcr:petclinic.war</fileUri>
-      <contextRoot>{{PETCLINIC_CONTEXTROOT}}</contextRoot>
+      <contextRoot>xl_cf_testing_petclinic</contextRoot>
+      <buildPack>https://github.com/cloudfoundry/java-buildpack.git</buildPack>
       <bindings>
         <value>mysql</value>
       </bindings>

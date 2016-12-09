@@ -61,10 +61,10 @@ class CFClient(object):
         return False
 
 
-    def create_application(self, app_name, file, memory=512, instances=1, build_pack=None):
+    def create_application(self, app_name, file, memory=512, instances=1, build_pack=None, hostname=None):
         if not self.application_exists(app_name):
             print "Creating application [%s] with memory [%s]" % (app_name, memory)
-            self._client.applications().push(PushApplicationRequest.builder().name(app_name).application(file).buildpack(build_pack).instances(instances).memory(memory).noRoute(True).noHostname(True).noStart(True).build()).block()
+            self._client.applications().push(PushApplicationRequest.builder().name(app_name).application(file).buildpack(build_pack).host(hostname).instances(instances).memory(memory).noRoute(True).noStart(True).build()).block()
         else:
             self._client.applications().updateApplicationUris(app_name)
 

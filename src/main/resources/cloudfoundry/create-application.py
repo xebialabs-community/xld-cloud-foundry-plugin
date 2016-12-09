@@ -12,4 +12,4 @@ uris = ""
 if len(deployed.getProperty('contextRoot')) > 0:
 	uris = "https://%s.%s" % (deployed.getProperty('contextRoot'), deployed.container.getProperty('organization').getProperty("defaultDomain"))
 
-cf_client.create_application(deployed.name, File(deployed.file.path).toPath(), memory=deployed.memory, instances=deployed.instances, build_pack=deployed.buildPack)
+cf_client.create_application(deployed.name, File(deployed.file.path).toPath(), memory=deployed.memory, instances=deployed.instances, build_pack=deployed.buildPack, hostname=deployed.hostname)

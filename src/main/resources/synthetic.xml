@@ -56,9 +56,12 @@
 
         <property name="contextRoot" required="true" description="Default root to the default domain"/>
         <property name="buildPack" required="false" description="Build pack to be used."/>
-        <property name="memory" kind="integer" required="false" description="Memory settings in MB" default="512"/>
-        <property name="instances" kind="integer" required="false" description="Number of instances" default="1"/>
+        <property name="hostname" required="false" description="Hostname to be used."/>
         <property name="bindings" kind="set_of_string" required="false"/>
+
+        <property name="memory" kind="integer" required="false" description="Memory settings in MB" default="512" category="scaling" />
+        <property name="instances" kind="integer" required="false" description="Number of instances" default="1" category="scaling" />
+
         <property name="retrialCount" kind="integer" required="true" default="30" />
         <property name="waitTime" kind="integer" required="true" default="2" />
 
