@@ -8,6 +8,20 @@ See the **XL Deploy Reference Manual** for background information on XL Deploy a
 
 The Cloud Foundry plugin is a XL Deploy plugin that adds capability for deploying applications to a Cloud Foundry space.
 
+# CI status #
+
+[![Build Status][xld-cloud-foundry-plugin-travis-image] ][xld-cloud-foundry-plugin-travis-url]
+[![Codacy Badge][xld-cloud-foundry-plugin-codacy-image] ][xld-cloud-foundry-plugin-codacy-url]
+[![Code Climate][xld-cloud-foundry-plugin-code-climate-image] ][xld-cloud-foundry-plugin-code-climate-url]
+
+[xld-cloud-foundry-plugin-travis-image]: https://travis-ci.org/xebialabs-community/xld-cloud-foundry-plugin.svg?branch=master
+[xld-cloud-foundry-plugin-travis-url]: https://travis-ci.org/xebialabs-community/xld-cloud-foundry-plugin
+[xld-cloud-foundry-plugin-codacy-image]: https://api.codacy.com/project/badge/grade/869116a652014efe81a5ff8380b0a6a9
+[xld-cloud-foundry-plugin-codacy-url]: https://www.codacy.com/app/joris-dewinne/xld-cloud-foundry-plugin
+[xld-cloud-foundry-plugin-code-climate-image]: https://codeclimate.com/github/xebialabs-community/xld-cloud-foundry-plugin/badges/gpa.svg
+[xld-cloud-foundry-plugin-code-climate-url]: https://codeclimate.com/github/xebialabs-community/xld-cloud-foundry-plugin
+
+
 # Requirements #
 
 * **Requirements**
