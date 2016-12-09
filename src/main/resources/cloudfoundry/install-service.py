@@ -6,6 +6,5 @@
 
 from cloudfoundry.util import CFClientUtil
 
-cfClient = CFClientUtil.create_space_client(deployed.container)
-cfClient.createService(deployed.getProperty("instanceName"), deployed.getProperty("serviceLabel"), deployed.getProperty("servicePlan"))
-cfClient.logout()
+cf_client = CFClientUtil.create_space_client(deployed.container)
+cf_client.create_service(deployed.getProperty("instanceName"), deployed.getProperty("serviceLabel"), deployed.getProperty("servicePlan"))

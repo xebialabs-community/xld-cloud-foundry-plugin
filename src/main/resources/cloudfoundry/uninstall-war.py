@@ -5,10 +5,7 @@
 #
 
 from cloudfoundry.util import CFClientUtil
-import sys
-from org.cloudfoundry.client.lib.domain import CloudEntity, CloudSpace, CloudService, CloudApplication, Staging
 
-cfClient = CFClientUtil.create_space_client(deployed.container)
+cf_client = CFClientUtil.create_space_client(deployed.container)
 
-cfClient.deleteApplication(deployed.name)
-cfClient.logout()
+cf_client.delete_application(deployed.name)

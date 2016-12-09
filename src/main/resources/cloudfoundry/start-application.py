@@ -5,13 +5,8 @@
 #
 
 from cloudfoundry.util import CFClientUtil
-import sys
 
-cfClient = CFClientUtil.create_space_client(deployed.container)
+cf_client = CFClientUtil.create_space_client(deployed.container)
 
-if not cfClient.startApplication(deployed.name, deployed.retrialCount, deployed.waitTime):
-    print "Application [%s] failed to start." % deployed.name
-    cfClient.logout()
-    sys.exit(1)
-
-cfClient.logout()
+cf_client.start_application(deployed.name)
+print "Application [%s] started." % deployed.name

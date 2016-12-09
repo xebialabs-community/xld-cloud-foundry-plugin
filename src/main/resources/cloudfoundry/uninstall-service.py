@@ -7,6 +7,5 @@
 from cloudfoundry.util import CFClientUtil
 import sys
 
-cfClient = CFClientUtil.create_space_client(deployed.container)
-cfClient.deleteService(deployed.getProperty("instanceName"))
-cfClient.logout()
+cf_client = CFClientUtil.create_space_client(deployed.container)
+cf_client.delete_service(deployed.getProperty("instanceName"))

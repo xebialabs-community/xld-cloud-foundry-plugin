@@ -5,13 +5,11 @@
 #
 
 from cloudfoundry.util import CFClientUtil
-import sys
+from java.io import File
 
-cfClient = CFClientUtil.create_space_client(deployed.container)
-uris = []
+cf_client = CFClientUtil.create_space_client(deployed.container)
+uris = ""
 if len(deployed.getProperty('contextRoot')) > 0:
-	uris = ["%s.%s" % (deployed.getProperty('contextRoot'), deployed.container.getProperty('organization').getProperty("defaultDomain"))]
+	uris = "https://%s.%s" % (deployed.getProperty('contextRoot'), deployed.container.getProperty('organization').getProperty("defaultDomain"))
 
-cfClient.createApplication(deployed.name, uris=uris)
-
-cfClient.logout()
+cf_client.create_application(deployed.name, File(deployed.file.path).toPath(), memory=deployed.memory, instances=deployed.instances, build_pack=deployed.buildPack)

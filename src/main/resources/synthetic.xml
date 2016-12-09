@@ -26,6 +26,11 @@
                 <parameter name="spaceName" kind="string" />
             </parameters>
         </method>
+        <method name="DeleteSpace" delegate="jythonScript" description="Deletes a space from this organization" script="cloudfoundry/delete-space.py">
+            <parameters>
+                <parameter name="spaceName" kind="string" />
+            </parameters>
+        </method>
     </type>
 
     <type type="cf.Space" extends="cf.VirtualSpaceContainer" >
@@ -50,6 +55,9 @@
         <generate-deployable type="cf.War" extends="jee.War"/>
 
         <property name="contextRoot" required="true" description="Default root to the default domain"/>
+        <property name="buildPack" required="false" description="Build pack to be used."/>
+        <property name="memory" kind="integer" required="false" description="Memory settings in MB" default="512"/>
+        <property name="instances" kind="integer" required="false" description="Number of instances" default="1"/>
         <property name="bindings" kind="set_of_string" required="false"/>
         <property name="retrialCount" kind="integer" required="true" default="30" />
         <property name="waitTime" kind="integer" required="true" default="2" />

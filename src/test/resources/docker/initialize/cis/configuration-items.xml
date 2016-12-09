@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-
-    THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS
-    FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALABS.
-
--->
 <xl:export xmlns:xl="http://www.xebialabs.com/xl-export">
   <xl:metadata>
     <xl:exported-by>admin</xl:exported-by>
-    <xl:exported-at>2016-12-08T21:19:00.586+0000</xl:exported-at>
+    <xl:exported-at>2016-12-09T04:57:32.752+0000</xl:exported-at>
     <xl:exported-format-version>6.0.1</xl:exported-format-version>
     <xl:encryption-key-fingerprint>f6094d333c0736339884d1fe38d9c54e14019ac9</xl:encryption-key-fingerprint>
   </xl:metadata>
   <xl:exported-configuration-items exported-root-id="/">
-    <cf.Space id="Infrastructure/XebiaLabs/XLR" created-by="admin" created-at="2016-12-05T23:15:25.085+0000" last-modified-by="admin" last-modified-at="2016-12-05T23:15:25.085+0000">
+    <udm.DeploymentPackage id="Applications/CFPetclinic/1.0" created-by="admin" created-at="2016-12-09T04:41:54.044+0000" last-modified-by="admin" last-modified-at="2016-12-09T04:41:54.044+0000">
+      <orchestrator />
+      <applicationDependencies />
+      <dependencyResolution>LATEST</dependencyResolution>
+      <undeployDependencies>false</undeployDependencies>
+    </udm.DeploymentPackage>
+    <udm.Environment id="Environments/CF" created-by="admin" created-at="2016-12-09T04:42:18.817+0000" last-modified-by="admin" last-modified-at="2016-12-09T04:42:18.817+0000">
+      <members>
+        <ci ref="Infrastructure/XebiaLabs/XLR" />
+      </members>
+      <dictionaries />
+      <triggers />
+    </udm.Environment>
+    <udm.Application id="Applications/CFPetclinic" created-by="admin" created-at="2016-12-09T04:41:54.041+0000" last-modified-by="admin" last-modified-at="2016-12-09T04:41:54.568+0000">
+      <lastVersion>1.0</lastVersion>
+    </udm.Application>
+    <cf.Space id="Infrastructure/XebiaLabs/XLR" created-by="admin" created-at="2016-12-09T04:36:52.007+0000" last-modified-by="admin" last-modified-at="2016-12-09T04:36:52.007+0000">
       <tags />
       <spaceName>XLR</spaceName>
     </cf.Space>
-    <cf.Organization id="Infrastructure/XebiaLabs" created-by="admin" created-at="2016-12-08T21:16:07.913+0000" last-modified-by="admin" last-modified-at="2016-12-08T21:16:07.913+0000">
+    <cf.Organization id="Infrastructure/XebiaLabs" created-by="admin" created-at="2016-12-09T04:36:51.999+0000" last-modified-by="admin" last-modified-at="2016-12-09T04:36:51.999+0000">
       <tags />
       <organizationName>XebiaLabs</organizationName>
       <apiEndpoint>api.run.pivotal.io</apiEndpoint>
@@ -27,5 +36,32 @@
       <password>your_password</password>
       <ignoreSsl>true</ignoreSsl>
     </cf.Organization>
+    <sql.SqlScripts id="Applications/CFPetclinic/1.0/dbscripts-{{PETCLINIC_CONTEXTROOT}}" created-by="admin" created-at="2016-12-09T04:41:54.057+0000" last-modified-by="admin" last-modified-at="2016-12-09T04:41:54.057+0000" file="Applications/CFPetclinic/1.0/dbscripts-{{PETCLINIC_CONTEXTROOT}}/mysql">
+      <tags />
+      <scanPlaceholders>true</scanPlaceholders>
+      <placeholders />
+      <checksum>55ba9082f5aa037f95a56f307ee1e08ef26c7fc5</checksum>
+      <fileUri>jcr:mysql</fileUri>
+      <cloudFoundryDbService>mysql</cloudFoundryDbService>
+      <retrialCount>30</retrialCount>
+      <waitTime>2</waitTime>
+    </sql.SqlScripts>
+    <cf.ServiceSpec id="Applications/CFPetclinic/1.0/mysqlDS" created-by="admin" created-at="2016-12-09T04:41:54.388+0000" last-modified-by="admin" last-modified-at="2016-12-09T04:41:54.388+0000">
+      <tags />
+      <instanceName>mysql</instanceName>
+      <serviceLabel>cleardb</serviceLabel>
+      <servicePlan>spark</servicePlan>
+    </cf.ServiceSpec>
+    <cf.War id="Applications/CFPetclinic/1.0/petclinic" created-by="admin" created-at="2016-12-09T04:41:54.387+0000" last-modified-by="admin" last-modified-at="2016-12-09T04:41:54.387+0000" file="Applications/CFPetclinic/1.0/petclinic/petclinic.war">
+      <tags />
+      <scanPlaceholders>false</scanPlaceholders>
+      <placeholders />
+      <checksum>39450960248e2586119e54bc41d67a90443a632a</checksum>
+      <fileUri>jcr:petclinic.war</fileUri>
+      <contextRoot>{{PETCLINIC_CONTEXTROOT}}</contextRoot>
+      <bindings>
+        <value>mysql</value>
+      </bindings>
+    </cf.War>
   </xl:exported-configuration-items>
 </xl:export>

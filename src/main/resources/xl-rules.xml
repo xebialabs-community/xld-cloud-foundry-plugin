@@ -43,15 +43,6 @@
             </jython>
 
             <jython>
-                <description expression="true">"Upload application code for " + deployed.name + " to " + deployed.container.name</description>
-                <order>70</order>
-                <script>cloudfoundry/install-war.py</script>
-                <jython-context>
-                    <deployed expression="true">deployed</deployed>
-                </jython-context>
-            </jython>
-
-            <jython>
                 <description expression="true">"Start application  " + deployed.name + " on " + deployed.container.name</description>
                 <order>90</order>
                 <script>cloudfoundry/start-application.py</script>

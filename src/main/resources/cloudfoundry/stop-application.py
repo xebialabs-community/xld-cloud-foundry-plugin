@@ -5,13 +5,8 @@
 #
 
 from cloudfoundry.util import CFClientUtil
-import sys
 
-cfClient = CFClientUtil.create_space_client(deployed.container)
+cf_client = CFClientUtil.create_space_client(deployed.container)
 
-if not cfClient.stopApplication(deployed.name, deployed.retrialCount, deployed.waitTime):
-    print "Application [%s] failed to stop." % deployed.name
-    cfClient.logout()
-    sys.exit(1)
-
-cfClient.logout()
+cf_client.stop_application(deployed.name)
+print "Application [%s] stopped." % deployed.name

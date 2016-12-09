@@ -5,12 +5,9 @@
 #
 
 from cloudfoundry.util import CFClientUtil
-import sys
 
-cfClient = CFClientUtil.create_space_client(deployed.container)
+cf_client = CFClientUtil.create_space_client(deployed.container)
 
 for binding in deployed.getProperty('bindings'):
 	print "Binding service instance [%s]" % binding
-	cfClient.bindService(deployed.name, binding)
-
-cfClient.logout()
+	cf_client.bind_service(deployed.name, binding)

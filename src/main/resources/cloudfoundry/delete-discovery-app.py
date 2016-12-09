@@ -13,6 +13,6 @@ cfClient = CFClientUtil.create_space_client(space)
 appName = "discovery-%s-%s" % (deployed.name, space.getProperty('spaceName'))
 
 print "Delete discovery application"
-cfClient.deleteApplication(appName)
+cfClient.delete_application(appName)
 
 cfClient.logout()

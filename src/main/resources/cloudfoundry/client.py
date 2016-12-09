@@ -4,10 +4,10 @@
 # FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALABS.
 #
 
-import time
-
 from org.cloudfoundry.operations import DefaultCloudFoundryOperations
-from org.cloudfoundry.operations.spaces import CreateSpaceRequest
+from org.cloudfoundry.operations.applications import DeleteApplicationRequest, GetApplicationManifestRequest, PushApplicationRequest, ScaleApplicationRequest, StartApplicationRequest, StopApplicationRequest
+from org.cloudfoundry.operations.services import CreateServiceInstanceRequest, DeleteServiceInstanceRequest, GetServiceInstanceRequest, BindServiceInstanceRequest
+from org.cloudfoundry.operations.spaces import CreateSpaceRequest, DeleteSpaceRequest
 from org.cloudfoundry.reactor import DefaultConnectionContext
 from org.cloudfoundry.reactor.client import ReactorCloudFoundryClient
 from org.cloudfoundry.reactor.uaa import ReactorUaaClient
@@ -32,15 +32,6 @@ class CFClient(object):
 
         return CFClient(api_endpoint, client)
 
-
-    def login(self):
-        self._client.login()
-
-
-    def logout(self):
-        self._client.logout()
-
-
     def discover_spaces(self):
         spaces = []
         for space in self._client.spaces().list().toIterable():
@@ -59,125 +50,76 @@ class CFClient(object):
         self._client.spaces().create(CreateSpaceRequest.builder().name(space_name).organization(organization_name).build()).block()
 
 
-    def deleteSpace(self, orgName, spaceName):
-        space_uuid = None
-        for space in self._client.spaces:
-            if space.name == spaceName and space.organization.name == orgName:
-                space_uuid = space.meta.guid
-                break
-
-        if space_uuid is None:
-            print "Space [%s] does not exist for org [%s]." % (spaceName, orgName)
-            return False
-
-        url = "%s/v2/spaces/%s" % (self._apiEndpoint, space_uuid)
-        self._factory.restTemplate.delete(url)
-        print "Space [%s] delete from org [%s]." % (spaceName, orgName)
-        return True
+    def delete_space(self, space_name):
+        self._client.spaces().delete(DeleteSpaceRequest.builder().name(space_name).build()).block()
 
 
-    def applicationExists(self, appName):
+    def application_exists(self, app_name):
+        for application in self._client.applications().list().toIterable():
+            if application.getName() == app_name:
+                return True
+        return False
+
+
+    def create_application(self, app_name, file, memory=512, instances=1, build_pack=None):
+        if not self.application_exists(app_name):
+            print "Creating application [%s] with memory [%s]" % (app_name, memory)
+            self._client.applications().push(PushApplicationRequest.builder().name(app_name).application(file).buildpack(build_pack).instances(instances).memory(memory).noRoute(True).noHostname(True).noStart(True).build()).block()
+        else:
+            self._client.applications().updateApplicationUris(app_name)
+
+
+    def delete_application(self, app_name):
+        if self.application_exists(app_name):
+            self._client.applications().delete(DeleteApplicationRequest.builder().name(app_name).build()).block()
+
+
+    def _get_application_manifest(self, app_name):
+        return self._client.applications().getApplicationManifest(GetApplicationManifestRequest.builder().name(app_name).build()).block()
+
+
+    def start_application(self, app_name):
+        self._client.applications().start(StartApplicationRequest.builder().name(app_name).build()).block()
+
+
+    def stop_application(self, app_name):
+        self._client.applications().stop(StopApplicationRequest.builder().name(app_name).build()).block()
+
+
+    def scale_application(self, app_name, instances, memory):
+        self._client.applications().scale(ScaleApplicationRequest.builder().name(app_name).instances(instances).memoryLimit(memory).build()).block()
+
+
+    def _service_instance_exists(self, instance_name):
         try:
-            self._client.getApplication(appName)
+            service_instance = self._client.services().getInstance(GetServiceInstanceRequest.builder().name(instance_name).build()).block()
+            print "Service instance [%s] exists" % service_instance.getName()
             return True
         except:
             return False
 
 
-    def createApplication(self, appName, memory=512, uris=[]):
-        if not self.applicationExists(appName):
-            print "Creating application [%s] with memory [%s] and the following uris %s" % (appName, memory, uris)
-            self._client.createApplication(appName, Staging(), memory, uris, None)
+    def create_service(self, instance_name, service_name, service_plan):
+        if not self._service_instance_exists(instance_name):
+            self._client.services().createInstance(CreateServiceInstanceRequest.builder().serviceInstanceName(instance_name).serviceName(service_name).planName(service_plan).build()).block()
+            print "Service [%s] created" % instance_name
         else:
-            self._client.updateApplicationUris(appName, uris)
+            print "Service [%s] already exists" % instance_name
 
 
-    def deleteApplication(self, appName):
-        if self.applicationExists(appName):
-            self._client.deleteApplication(appName)
-
-
-    def uploadApplication(self, appName, file):
-        self._client.uploadApplication(appName, file, None)
-
-
-    def _getApplication(self, appName):
-        return self._client.getApplication(appName)
-
-
-    def startApplication(self, appName, retrialCount=30, waitTime=2):
-        time.sleep(waitTime)
-        if CloudApplication.AppState.STARTED == self._getApplication(appName).state:
-            print "Application [%s] already started" % appName
-            return True
+    def delete_service(self, instance_name):
+        if self._service_instance_exists(instance_name):
+            self._client.services().deleteInstance(DeleteServiceInstanceRequest.builder().name(instance_name).build()).block()
+            print "Service [%s] deleted" % instance_name
         else:
-            print "Starting application [%s] ..." % appName
-            self._client.startApplication(appName)
-            print "Starting application [%s] called" % appName
-            counter = 0
-            while True and counter < retrialCount:
-                counter += 1
-                print "Waiting to check status application [%s] ..." % waitTime
-                time.sleep(waitTime)
-                print "Checking application status [%s] ..." % appName
-                if CloudApplication.AppState.STARTED == self._getApplication(appName).state:
-                    print "Application [%s] started" % appName
-                    return True
-
-        return False
+            print "Service [%s] not found" % instance_name
 
 
-    def stopApplication(self, appName, retrialCount=30, waitTime=2):
-        time.sleep(waitTime)
-        if CloudApplication.AppState.STOPPED == self._getApplication(appName).state:
-            print "Application [%s] already stopped" % appName
-            return True
-        else:
-            self._client.stopApplication(appName)
-            counter = 0
-            while True and counter < retrialCount:
-                counter += 1
-                if CloudApplication.AppState.STOPPED == self._getApplication(appName).state:
-                    print "Application [%s] stopped" % appName
-                    return True
-                time.sleep(waitTime)
-        return False
+    def _service_already_bound(self, app_name, instance_name):
+        services = self._get_application_manifest(app_name).getServices()
+        return services is not None and instance_name in services
 
 
-    def scaleApplication(self, appName, instances, memory):
-        self._client.updateApplicationInstances(appName, instances)
-        self._client.updateApplicationMemory(appName, memory)
-
-
-    def _serviceInstanceExists(self, instanceName):
-        return self._client.getService(instanceName) is not None
-
-
-    def createService(self, instanceName, serviceName, servicePlan):
-        if not self._serviceInstanceExists(instanceName):
-            service = CloudService(CloudEntity.Meta.defaultMeta(), instanceName)
-            service.setLabel(serviceName)
-            service.setPlan(servicePlan)
-            self._client.createService(service)
-            print "Service [%s] created" % instanceName
-
-
-    def deleteService(self, instanceName):
-        if self._serviceInstanceExists(instanceName):
-            self._client.deleteService(instanceName)
-            print "Service [%s] deleted" % instanceName
-
-
-    def _serviceAlreadyBound(self, appName, instanceName):
-        services = self._getApplication(appName).services
-        return services is not None and instanceName in services
-
-
-    def bindService(self, appName, instanceName):
-        if not self._serviceAlreadyBound(appName, instanceName):
-            self._client.bindService(appName, instanceName)
-
-
-    def setEnvironmentVariables(self, appName, vars):
-        if self.applicationExists(appName):
-            self._client.updateApplicationEnv(appName, vars)
+    def bind_service(self, app_name, service_instance_name):
+        if not self._service_already_bound(app_name, service_instance_name):
+            self._client.services().bind(BindServiceInstanceRequest.builder().applicationName(app_name).serviceInstanceName(service_instance_name).build()).block()

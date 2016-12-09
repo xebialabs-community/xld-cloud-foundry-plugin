@@ -19,14 +19,14 @@ uris = ["%s.%s" % (appName, space.getProperty("organization").getProperty('defau
 
 
 print "Creating discovery application"
-cfClient.createApplication(appName, uris=uris)
+cfClient.create_application(appName, uris=uris)
 print "Binding db service"
-cfClient.bindService(appName, deployed.getProperty('cloudFoundryDbService'))
+cfClient.bind_service(appName, deployed.getProperty('cloudFoundryDbService'))
 
 print "Uploading discovery application code"
 cfClient.uploadApplication(appName, File('ext/cloudfoundry/discoveryapp'))
 print "Starting discovery application"
-cfClient.startApplication(appName, deployed.retrialCount, deployed.waitTime)
+cfClient.start_application(appName, deployed.retrialCount, deployed.waitTime)
 
 print "Fetch information from http://%s" % uris[0]
 
