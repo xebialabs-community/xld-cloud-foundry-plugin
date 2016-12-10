@@ -70,6 +70,34 @@
         </steps>
     </rule>
 
+    <rule name="cf_map_route" scope="deployed">
+        <conditions>
+            <type>cf.Route</type>
+            <operation>CREATE</operation>
+        </conditions>
+        <steps>
+            <jython>
+                <description expression="true">"Adding route " + deployed.name + " to " + deployed.appName</description>
+                <order>46</order>
+                <script>cloudfoundry/map-route.py</script>
+            </jython>
+        </steps>
+    </rule>
+
+    <rule name="cf_unmap_route" scope="deployed">
+        <conditions>
+            <type>cf.Route</type>
+            <operation>DESTROY</operation>
+        </conditions>
+        <steps>
+            <jython>
+                <description expression="true">"Remove route " + previousDeployed.name + " from " + previousDeployed.appName</description>
+                <order>39</order>
+                <script>cloudfoundry/unmap-route.py</script>
+            </jython>
+        </steps>
+    </rule>
+
     <rule name="cf_install_service_in_space" scope="deployed">
         <conditions>
             <type>cf.Service</type>

@@ -6,6 +6,7 @@
 
 from org.cloudfoundry.operations import DefaultCloudFoundryOperations
 from org.cloudfoundry.operations.applications import DeleteApplicationRequest, GetApplicationManifestRequest, PushApplicationRequest, ScaleApplicationRequest, StartApplicationRequest, StopApplicationRequest
+from org.cloudfoundry.operations.routes import MapRouteRequest, UnmapRouteRequest
 from org.cloudfoundry.operations.services import CreateServiceInstanceRequest, DeleteServiceInstanceRequest, GetServiceInstanceRequest, BindServiceInstanceRequest
 from org.cloudfoundry.operations.spaces import CreateSpaceRequest, DeleteSpaceRequest
 from org.cloudfoundry.reactor import DefaultConnectionContext
@@ -123,3 +124,9 @@ class CFClient(object):
     def bind_service(self, app_name, service_instance_name):
         if not self._service_already_bound(app_name, service_instance_name):
             self._client.services().bind(BindServiceInstanceRequest.builder().applicationName(app_name).serviceInstanceName(service_instance_name).build()).block()
+
+    def map_route(self, app_name, domain_name, hostname, path, port, random_port):
+        self._client.routes().map(MapRouteRequest.builder().applicationName(app_name).domain(domain_name).host(hostname).path(path).build()).block()
+
+    def unmap_route(self, app_name, domain_name, hostname, path, port):
+        self._client.routes().unmap(UnmapRouteRequest.builder().applicationName(app_name).domain(domain_name).host(hostname).path(path).build()).block()

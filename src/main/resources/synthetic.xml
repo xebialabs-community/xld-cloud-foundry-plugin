@@ -54,7 +54,6 @@
     <type type="cf.WarModule" extends="udm.BaseDeployedArtifact" deployable-type="cf.War" container-type="cf.Space">
         <generate-deployable type="cf.War" extends="jee.War"/>
 
-        <property name="contextRoot" required="true" description="Default root to the default domain"/>
         <property name="buildPack" required="false" description="Build pack to be used."/>
         <property name="hostname" required="false" description="Hostname to be used."/>
         <property name="bindings" kind="set_of_string" required="false"/>
@@ -71,6 +70,16 @@
                 <parameter name="Memory" default="512" kind="integer" description="(MB)" />
             </parameters>
         </method>
+    </type>
+
+    <type type="cf.Route" extends="udm.BaseDeployed" deployable-type="cf.RouteSpec" container-type="cf.Space">
+        <generate-deployable type="cf.RouteSpec" extends="udm.BaseDeployable"/>
+        <property name="appName" required="true" kind="string" description="Name of the application to route to"/>
+        <property name="domainName" required="true" kind="string" description="Name of the domain to route to"/>
+        <property name="hostname" required="false" kind="string" description="Hostname for the HTTP route (required for shared domains)"/>
+        <property name="path" required="false" kind="string" description="Path for the HTTP route"/>
+        <property name="port" required="false" kind="integer" description="Port for the TCP route"/>
+        <property name="randomPort" required="false" kind="boolean" description="Use a random port number." default="false"/>
     </type>
 
     <type type="cf.Service" extends="udm.BaseDeployed" deployable-type="cf.ServiceSpec" container-type="cf.Space">
