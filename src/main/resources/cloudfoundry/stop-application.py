@@ -8,5 +8,5 @@ from cloudfoundry.util import CFClientUtil
 
 cf_client = CFClientUtil.create_space_client(deployed.container)
 
-cf_client.stop_application(deployed.name)
-print "Application [%s] stopped." % deployed.name
+cf_client.stop_application(appName)
+print "Application [%s] stopped." % appName

@@ -59,8 +59,7 @@
       <serviceLabel>cleardb</serviceLabel>
       <servicePlan>spark</servicePlan>
     </cf.ServiceSpec>
-    <cf.RouteSpec id="Applications/CFPetclinic/1.0/hello-X1-testing" created-by="admin" created-at="2016-12-09T04:41:54.388+0000" last-modified-by="admin" last-modified-at="2016-12-09T04:41:54.388+0000">
-      <tags />
+    <cf.RouteSpec id="Applications/CFPetclinic/1.0/petclinic/hello-X1-Testing" created-by="admin" created-at="2016-12-10T05:30:50.087+0000" last-modified-by="admin" last-modified-at="2016-12-10T05:30:50.087+0000">
       <appName>petclinic</appName>
       <domainName>cfapps.io</domainName>
       <hostname>hello-X1-Testing</hostname>
@@ -71,6 +70,7 @@
       <placeholders />
       <checksum>39450960248e2586119e54bc41d67a90443a632a</checksum>
       <fileUri>jcr:petclinic.war</fileUri>
+      <appName>petclinic</appName>
       <contextRoot>xl_cf_testing_petclinic</contextRoot>
       <buildPack>https://github.com/cloudfoundry/java-buildpack.git</buildPack>
       <hostname>hello-X1-Testing</hostname>

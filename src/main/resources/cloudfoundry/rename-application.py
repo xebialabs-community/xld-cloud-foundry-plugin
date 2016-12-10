@@ -7,6 +7,4 @@
 from cloudfoundry.util import CFClientUtil
 
 cf_client = CFClientUtil.create_space_client(deployed.container)
-
-cf_client.start_application(appName)
-print "Application [%s] started." % appName
+cf_client.rename_application(appName)

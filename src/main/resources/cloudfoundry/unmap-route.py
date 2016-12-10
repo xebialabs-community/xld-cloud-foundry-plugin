@@ -6,5 +6,9 @@
 
 from cloudfoundry.util import CFClientUtil
 
-cf_client = CFClientUtil.create_space_client(previousDeployed.container)
-cf_client.unmap_route(previousDeployed.appName, previousDeployed.domainName, previousDeployed.hostname, previousDeployed.path, previousDeployed.port)
+cf_client = CFClientUtil.create_space_client(deployed.container)
+for route in deployed.routes:
+    if green:
+        cf_client.unmap_route(appName, route.domainName, "%s_green" % route.hostname, route.path, route.port)
+    else:
+        cf_client.unmap_route(appName, route.domainName, route.hostname, route.path, route.port)

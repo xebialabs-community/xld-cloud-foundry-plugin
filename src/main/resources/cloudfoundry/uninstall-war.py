@@ -6,6 +6,6 @@
 
 from cloudfoundry.util import CFClientUtil
 
-cf_client = CFClientUtil.create_space_client(deployed.container)
+cf_client = CFClientUtil.create_space_client(previousDeployed.container)
 
-cf_client.delete_application(deployed.name)
+cf_client.delete_application(appName)

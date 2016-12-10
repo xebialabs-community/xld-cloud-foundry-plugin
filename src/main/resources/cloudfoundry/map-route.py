@@ -7,4 +7,8 @@
 from cloudfoundry.util import CFClientUtil
 
 cf_client = CFClientUtil.create_space_client(deployed.container)
-cf_client.map_route(deployed.appName, deployed.domainName, deployed.hostname, deployed.path, deployed.port, deployed.randomPort)
+for route in deployed.routes:
+    if green:
+        cf_client.map_route(appName, route.domainName, "%s_green" % route.hostname, route.path, route.port, route.randomPort)
+    else:
+        cf_client.map_route(appName, route.domainName, route.hostname, route.path, route.port, route.randomPort)

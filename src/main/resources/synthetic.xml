@@ -53,13 +53,17 @@
 
     <type type="cf.WarModule" extends="udm.BaseDeployedArtifact" deployable-type="cf.War" container-type="cf.Space">
         <generate-deployable type="cf.War" extends="jee.War"/>
+        <property name="appName" required="true" description="Application name to be used."/>
 
         <property name="buildPack" required="false" description="Build pack to be used."/>
         <property name="hostname" required="false" description="Hostname to be used."/>
         <property name="bindings" kind="set_of_string" required="false"/>
+        <property name="routes" kind="set_of_ci" referenced-type="cf.Route" as-containment="true" required="false" description="Routes for this application" />
 
         <property name="memory" kind="integer" required="false" description="Memory settings in MB" default="512" category="scaling" />
         <property name="instances" kind="integer" required="false" description="Number of instances" default="1" category="scaling" />
+
+        <property name="blueGreen" kind="boolean" required="false" description="If selected, an update operation will be performed in a blue green deployment." />
 
         <property name="retrialCount" kind="integer" required="true" default="30" />
         <property name="waitTime" kind="integer" required="true" default="2" />
@@ -72,8 +76,12 @@
         </method>
     </type>
 
-    <type type="cf.Route" extends="udm.BaseDeployed" deployable-type="cf.RouteSpec" container-type="cf.Space">
-        <generate-deployable type="cf.RouteSpec" extends="udm.BaseDeployable"/>
+    <type-modification type="cf.War">
+        <property name="routes" kind="set_of_ci" referenced-type="cf.RouteSpec" as-containment="true" description="Routes for this application" />
+    </type-modification>
+
+    <type type="cf.Route" extends="udm.BaseEmbeddedDeployed" deployable-type="cf.RouteSpec" container-type="cf.WarModule">
+        <generate-deployable type="cf.RouteSpec" extends="udm.BaseEmbeddedDeployable"/>
         <property name="appName" required="true" kind="string" description="Name of the application to route to"/>
         <property name="domainName" required="true" kind="string" description="Name of the domain to route to"/>
         <property name="hostname" required="false" kind="string" description="Hostname for the HTTP route (required for shared domains)"/>

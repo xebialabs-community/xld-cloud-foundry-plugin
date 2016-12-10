@@ -12,42 +12,51 @@
         <conditions>
             <type>cf.WarModule</type>
             <operation>CREATE</operation>
-            <operation>MODIFY</operation>
         </conditions>
         <steps>
-            <jython operation="CREATE">
-                <description expression="true">"Ensure application " + deployed.name + " available on " + deployed.container.name</description>
+            <jython>
+                <description expression="true">"Ensure application [%s] available on [%s]" % (deployed.appName, deployed.container.name)</description>
                 <order>9</order>
                 <script>cloudfoundry/create-application.py</script>
                 <jython-context>
-                    <deployed expression="true">deployed</deployed>
+                    <appName expression="true">deployed.appName</appName>
                 </jython-context>
             </jython>
 
-            <jython operation="MODIFY">
-                <description expression="true">"Stop application  " + deployed.name + " on " + deployed.container.name</description>
+            <jython>
+                <description expression="true">"Stop application [%s] on [%s]" % (deployed.appName, deployed.container.name)</description>
                 <order>20</order>
                 <script>cloudfoundry/stop-application.py</script>
                 <jython-context>
-                    <deployed expression="true">deployed</deployed>
+                    <appName expression="true">deployed.appName</appName>
                 </jython-context>
             </jython>
 
             <jython>
-                <description expression="true">"Bind services [%s] to [%s]" % (', '.join(deployed.getProperty('bindings')) , deployed.name)</description>
+                <description expression="true">"Bind services [%s] to [%s]" % (', '.join(deployed.getProperty('bindings')) , deployed.appName)</description>
                 <order>45</order>
                 <script>cloudfoundry/bind-services.py</script>
                 <jython-context>
-                    <deployed expression="true">deployed</deployed>
+                    <appName expression="true">deployed.appName</appName>
                 </jython-context>
             </jython>
 
             <jython>
-                <description expression="true">"Start application  " + deployed.name + " on " + deployed.container.name</description>
+                <description expression="true">"Adding routes to [%s] " % deployed.appName</description>
+                <order>46</order>
+                <script>cloudfoundry/map-route.py</script>
+                <jython-context>
+                    <appName expression="true">deployed.appName</appName>
+                    <green expression="true">False</green>
+                </jython-context>
+            </jython>
+
+            <jython>
+                <description expression="true">"Start application [%s] on [%s]" % (deployed.appName, deployed.container.name)</description>
                 <order>90</order>
                 <script>cloudfoundry/start-application.py</script>
                 <jython-context>
-                    <deployed expression="true">deployed</deployed>
+                    <appName expression="true">deployed.appName</appName>
                 </jython-context>
             </jython>
         </steps>
@@ -60,41 +69,183 @@
         </conditions>
         <steps>
             <jython>
-                <description expression="true">"Undeploy " + previousDeployed.name + " from " + previousDeployed.container.name</description>
+                <description expression="true">"Undeploy [%s] from [%s]" % (previousDeployed.appName, previousDeployed.container.name)</description>
                 <order>40</order>
                 <script>cloudfoundry/uninstall-war.py</script>
                 <jython-context>
-                    <deployed expression="true">previousDeployed</deployed>
+                    <appName expression="true">previousDeployed.appName</appName>
                 </jython-context>
             </jython>
         </steps>
     </rule>
 
-    <rule name="cf_map_route" scope="deployed">
+    <rule name="cf_install_war_blue_green" scope="deployed">
         <conditions>
-            <type>cf.Route</type>
-            <operation>CREATE</operation>
+            <type>cf.WarModule</type>
+            <operation>MODIFY</operation>
+            <expression>deployed.blueGreen</expression>
         </conditions>
         <steps>
             <jython>
-                <description expression="true">"Adding route " + deployed.name + " to " + deployed.appName</description>
+                <description expression="true">"Ensure application [%s_green] is available on [%s]" % (deployed.appName, deployed.container.name)</description>
+                <order>9</order>
+                <script>cloudfoundry/create-application.py</script>
+                <jython-context>
+                    <appName expression="true">"%s_green" % deployed.appName</appName>
+                </jython-context>
+            </jython>
+
+            <jython operation="MODIFY">
+                <description expression="true">"Stop application [%s_green] on [%s]" % (deployed.appName, deployed.container.name)</description>
+                <order>20</order>
+                <script>cloudfoundry/stop-application.py</script>
+                <jython-context>
+                    <appName expression="true">"%s_green" % deployed.appName</appName>
+                </jython-context>
+            </jython>
+
+            <jython>
+                <description expression="true">"Bind services [%s] to [%s_green]" % (', '.join(deployed.getProperty('bindings')) , deployed.appName)</description>
+                <order>45</order>
+                <script>cloudfoundry/bind-services.py</script>
+                <jython-context>
+                    <appName expression="true">"%s_green" % deployed.appName</appName>
+                </jython-context>
+            </jython>
+
+            <jython>
+                <description expression="true">"Adding temporary routes to [%s_green]" % deployed.appName</description>
                 <order>46</order>
                 <script>cloudfoundry/map-route.py</script>
+                <jython-context>
+                    <appName expression="true">"%s_green" % deployed.appName</appName>
+                    <green expression="true">True</green>
+                </jython-context>
             </jython>
+
+            <jython>
+                <description expression="true">"Start application [%s_green] on [%s]" % (deployed.name, deployed.container.name)</description>
+                <order>47</order>
+                <script>cloudfoundry/start-application.py</script>
+                <jython-context>
+                    <appName expression="true">"%s_green" % deployed.appName</appName>
+                </jython-context>
+            </jython>
+
+            <jython>
+                <description expression="true">"Adding standard routes to [%s_green]" % deployed.appName</description>
+                <order>48</order>
+                <script>cloudfoundry/map-route.py</script>
+                <jython-context>
+                    <appName expression="true">"%s_green" % deployed.appName</appName>
+                    <green expression="true">False</green>
+                </jython-context>
+            </jython>
+
+            <jython>
+                <description expression="true">"Remove routes from [%s]" % previousDeployed.appName</description>
+                <order>49</order>
+                <script>cloudfoundry/unmap-route.py</script>
+                <jython-context>
+                    <appName expression="true">previousDeployed.appName</appName>
+                    <deployed expression="true">previousDeployed</deployed>
+                    <green expression="true">False</green>
+                </jython-context>
+            </jython>
+
+            <jython>
+                <description expression="true">"Remove temporary routes from [%s_green]" % deployed.appName</description>
+                <order>50</order>
+                <script>cloudfoundry/unmap-route.py</script>
+                <jython-context>
+                    <appName expression="true">"%s_green" % deployed.appName</appName>
+                    <green expression="true">True</green>
+                </jython-context>
+            </jython>
+
+            <jython>
+                <description expression="true">"Undeploy [%s] from [%s]" % (previousDeployed.appName, previousDeployed.container.name)</description>
+                <order>51</order>
+                <script>cloudfoundry/uninstall-war.py</script>
+                <jython-context>
+                    <appName expression="true">previousDeployed.appName</appName>
+                </jython-context>
+            </jython>
+
+            <jython>
+                <description expression="true">"Rename [%s_green] to [%s]" % (deployed.appName, deployed.appName)</description>
+                <order>52</order>
+                <script>cloudfoundry/rename-application.py</script>
+                <jython-context>
+                    <appName expression="true">deployed.appName</appName>
+                </jython-context>
+            </jython>
+
         </steps>
     </rule>
 
-    <rule name="cf_unmap_route" scope="deployed">
+    <rule name="cf_install_war_not_blue_green" scope="deployed">
         <conditions>
-            <type>cf.Route</type>
-            <operation>DESTROY</operation>
+            <type>cf.WarModule</type>
+            <operation>MODIFY</operation>
+            <expression>not deployed.blueGreen</expression>
         </conditions>
         <steps>
             <jython>
-                <description expression="true">"Remove route " + previousDeployed.name + " from " + previousDeployed.appName</description>
-                <order>39</order>
-                <script>cloudfoundry/unmap-route.py</script>
+                <description expression="true">"Undeploy [%s] from [%s]" % (previousDeployed.appName, previousDeployed.container.name)</description>
+                <order>8</order>
+                <script>cloudfoundry/uninstall-war.py</script>
+                <jython-context>
+                    <appName expression="true">previousDeployed.appName</appName>
+                </jython-context>
             </jython>
+
+            <jython>
+                <description expression="true">"Ensure application [%s] available on [%s]" % (deployed.appName, deployed.container.name)</description>
+                <order>9</order>
+                <script>cloudfoundry/create-application.py</script>
+                <jython-context>
+                    <appName expression="true">deployed.appName</appName>
+                </jython-context>
+            </jython>
+
+            <jython>
+                <description expression="true">"Stop application [%s] on [%s]" % (deployed.appName, deployed.container.name)</description>
+                <order>20</order>
+                <script>cloudfoundry/stop-application.py</script>
+                <jython-context>
+                    <appName expression="true">deployed.appName</appName>
+                </jython-context>
+            </jython>
+
+            <jython>
+                <description expression="true">"Bind services [%s] to [%s]" % (', '.join(deployed.getProperty('bindings')) , deployed.appName)</description>
+                <order>45</order>
+                <script>cloudfoundry/bind-services.py</script>
+                <jython-context>
+                    <appName expression="true">deployed.appName</appName>
+                </jython-context>
+            </jython>
+
+            <jython>
+                <description expression="true">"Adding routes to [%s] " % deployed.appName</description>
+                <order>46</order>
+                <script>cloudfoundry/map-route.py</script>
+                <jython-context>
+                    <appName expression="true">deployed.appName</appName>
+                    <green expression="true">False</green>
+                </jython-context>
+            </jython>
+
+            <jython>
+                <description expression="true">"Start application [%s] on [%s]" % (deployed.appName, deployed.container.name)</description>
+                <order>90</order>
+                <script>cloudfoundry/start-application.py</script>
+                <jython-context>
+                    <appName expression="true">deployed.appName</appName>
+                </jython-context>
+            </jython>
+
         </steps>
     </rule>
 
@@ -102,6 +253,7 @@
         <conditions>
             <type>cf.Service</type>
             <operation>CREATE</operation>
+            <operation>MODIFY</operation>
         </conditions>
         <steps>
             <jython>
@@ -119,6 +271,7 @@
         <conditions>
             <type>cf.Service</type>
             <operation>DESTROY</operation>
+            <operation>MODIFY</operation>
         </conditions>
         <steps>
             <jython>

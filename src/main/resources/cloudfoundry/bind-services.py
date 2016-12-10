@@ -10,4 +10,4 @@ cf_client = CFClientUtil.create_space_client(deployed.container)
 
 for binding in deployed.getProperty('bindings'):
 	print "Binding service instance [%s]" % binding
-	cf_client.bind_service(deployed.name, binding)
+	cf_client.bind_service(appName, binding)

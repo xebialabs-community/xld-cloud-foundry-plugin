@@ -5,7 +5,7 @@
 #
 
 from org.cloudfoundry.operations import DefaultCloudFoundryOperations
-from org.cloudfoundry.operations.applications import DeleteApplicationRequest, GetApplicationManifestRequest, PushApplicationRequest, ScaleApplicationRequest, StartApplicationRequest, StopApplicationRequest
+from org.cloudfoundry.operations.applications import DeleteApplicationRequest, GetApplicationManifestRequest, PushApplicationRequest, RenameApplicationRequest, ScaleApplicationRequest, StartApplicationRequest, StopApplicationRequest
 from org.cloudfoundry.operations.routes import MapRouteRequest, UnmapRouteRequest
 from org.cloudfoundry.operations.services import CreateServiceInstanceRequest, DeleteServiceInstanceRequest, GetServiceInstanceRequest, BindServiceInstanceRequest
 from org.cloudfoundry.operations.spaces import CreateSpaceRequest, DeleteSpaceRequest
@@ -78,6 +78,8 @@ class CFClient(object):
     def _get_application_manifest(self, app_name):
         return self._client.applications().getApplicationManifest(GetApplicationManifestRequest.builder().name(app_name).build()).block()
 
+    def rename_application(self, app_name):
+        self._client.applications().rename(RenameApplicationRequest.builder().name("%s_green" % app_name).newName(app_name).build()).block()
 
     def start_application(self, app_name):
         self._client.applications().start(StartApplicationRequest.builder().name(app_name).build()).block()
