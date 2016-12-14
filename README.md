@@ -49,3 +49,12 @@ Extract `cloudfoundry/discoveryapp/index.php` from the JAR and copy it to `SERVE
 2. Create an environment under `Repository - Environments`
 3. Create an application with `cf.ServiceSpec` and `cf.War` as deployables.
 4. Start deploying
+
+# Types #
++ `cf.Organization`
++ `cf.Space`
++ `cf.Domain`
++ `cf.War`
++ `cf.RouteSpec`
++ `cf.ServiceSpec`
+
