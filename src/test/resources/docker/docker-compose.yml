@@ -1,0 +1,18 @@
+#
+# THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS
+# FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALABS.
+#
+mysql:
+  image: xebialabs/xl-docker-demo-mysql:v5.7.16.1
+
+xld:
+  image: xebialabs/xld_dev_run:v6.0.1.2
+  volumes:
+    - ~/xl-licenses:/license
+    - ./../../../../:/data
+    - ./../../../main/hotfix/plugins:/opt/xld/server/hotfix/plugins
+  links:
+    - mysql
+  ports:
+    - "14516:4516"

@@ -23,10 +23,21 @@
     <udm.Environment id="Environments/CF" created-by="admin" created-at="2016-12-09T04:42:18.817+0000" last-modified-by="admin" last-modified-at="2016-12-09T04:42:18.817+0000">
       <members>
         <ci ref="Infrastructure/XebiaLabs/XLR" />
+        <ci ref="Infrastructure/mysql/cfmysqlclient" />
       </members>
-      <dictionaries />
+      <dictionaries>
+        <ci ref="Environments/cfdict" />
+      </dictionaries>
       <triggers />
     </udm.Environment>
+    <udm.Dictionary id="Environments/cfdict" created-by="admin" created-at="2016-12-14T21:29:44.095+0000" last-modified-by="admin" last-modified-at="2016-12-14T21:30:17.819+0000">
+      <entries>
+        <entry key="PETCLINIC_CONTEXTROOT">hello-X1-Testing</entry>
+      </entries>
+      <encryptedEntries />
+      <restrictToContainers />
+      <restrictToApplications />
+    </udm.Dictionary>
     <udm.Application id="Applications/CFPetclinic" created-by="admin" created-at="2016-12-09T04:41:54.041+0000" last-modified-by="admin" last-modified-at="2016-12-09T04:41:54.568+0000">
       <lastVersion>1.0</lastVersion>
     </udm.Application>
@@ -43,6 +54,20 @@
       <password>your_password</password>
       <ignoreSsl>true</ignoreSsl>
     </cf.Organization>
+    <overthere.SshHost id="Infrastructure/mysql" created-by="admin" created-at="2016-12-14T21:25:09.624+0000" last-modified-by="admin" last-modified-at="2016-12-14T21:25:09.624+0000">
+      <tags />
+      <os>UNIX</os>
+      <connectionType>SCP</connectionType>
+      <address>mysql</address>
+      <port>22</port>
+      <username>root</username>
+      <password>{b64}h5nRb+E/HjfPpC+yBcurNA==</password>
+    </overthere.SshHost>
+    <cf.MySqlClient id="Infrastructure/mysql/cfmysqlclient" created-by="admin" created-at="2016-12-14T21:25:32.101+0000" last-modified-by="admin" last-modified-at="2016-12-14T21:25:32.101+0000">
+      <tags />
+      <envVars />
+      <space ref="Infrastructure/XebiaLabs/XLR" />
+    </cf.MySqlClient>
     <sql.SqlScripts id="Applications/CFPetclinic/1.0/dbscripts-{{PETCLINIC_CONTEXTROOT}}" created-by="admin" created-at="2016-12-09T04:41:54.057+0000" last-modified-by="admin" last-modified-at="2016-12-09T04:41:54.057+0000" file="Applications/CFPetclinic/1.0/dbscripts-{{PETCLINIC_CONTEXTROOT}}/mysql">
       <tags />
       <scanPlaceholders>true</scanPlaceholders>

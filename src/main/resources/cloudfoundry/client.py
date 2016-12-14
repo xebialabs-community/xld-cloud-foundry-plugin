@@ -126,8 +126,8 @@ class CFClient(object):
         if not self._service_already_bound(app_name, service_instance_name):
             self._client.services().bind(BindServiceInstanceRequest.builder().applicationName(app_name).serviceInstanceName(service_instance_name).build()).block()
 
-    def map_route(self, app_name, domain_name, hostname, path, port, random_port):
+    def map_route(self, app_name, domain_name, hostname, path, port=None, random_port=None):
         self._client.routes().map(MapRouteRequest.builder().applicationName(app_name).domain(domain_name).host(hostname).path(path).build()).block()
 
-    def unmap_route(self, app_name, domain_name, hostname, path, port):
+    def unmap_route(self, app_name, domain_name, hostname, path, port=None):
         self._client.routes().unmap(UnmapRouteRequest.builder().applicationName(app_name).domain(domain_name).host(hostname).path(path).build()).block()

@@ -6,27 +6,27 @@
 
 from cloudfoundry.util import CFClientUtil
 from java.io import File
-import simplejson as json
+import json
 import urllib2
 import time
 
-sqlClient = deployed.container
-space = sqlClient.getProperty("space")
-cfClient = CFClientUtil.create_space_client(space)
+sql_client = deployed.container
+space = sql_client.getProperty("space")
+cf_client = CFClientUtil.create_space_client(space)
 
-appName = "discovery-%s-%s" % (deployed.name, space.getProperty('spaceName'))
-uris = ["%s.%s" % (appName, space.getProperty("organization").getProperty('defaultDomain'))]
+app_name = "discovery-%s-%s" % (deployed.name, space.getProperty('spaceName'))
+uris = ["%s.%s" % (app_name, space.getProperty("organization").getProperty('defaultDomain'))]
 
 
 print "Creating discovery application"
-cfClient.create_application(appName, uris=uris)
+cf_client.create_application(app_name, File('ext/cloudfoundry/discoveryapp').toPath())
 print "Binding db service"
-cfClient.bind_service(appName, deployed.getProperty('cloudFoundryDbService'))
+cf_client.bind_service(app_name, deployed.getProperty('cloudFoundryDbService'))
 
-print "Uploading discovery application code"
-cfClient.uploadApplication(appName, File('ext/cloudfoundry/discoveryapp'))
+print "Mapping route"
+cf_client.map_route(app_name, space.organization.defaultDomain, app_name, None, None, None)
 print "Starting discovery application"
-cfClient.start_application(appName, deployed.retrialCount, deployed.waitTime)
+cf_client.start_application(app_name)
 
 print "Fetch information from http://%s" % uris[0]
 
@@ -55,5 +55,3 @@ for vcapService in vcapServices.keys():
             context.setAttribute("%s-password" % vcapServiceInstance["name"], creds["password"])
             context.setAttribute("%s-host" % vcapServiceInstance["name"], creds["hostname"])
             context.setAttribute("%s-db" % vcapServiceInstance["name"], creds["name"])
-
-cfClient.logout()

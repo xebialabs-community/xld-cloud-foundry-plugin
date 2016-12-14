@@ -8,11 +8,9 @@ from cloudfoundry.util import CFClientUtil
 
 sqlClient = deployed.container
 space = sqlClient.getProperty("space")
-cfClient = CFClientUtil.create_space_client(space)
+cf_client = CFClientUtil.create_space_client(space)
 
-appName = "discovery-%s-%s" % (deployed.name, space.getProperty('spaceName'))
+app_name = "discovery-%s-%s" % (deployed.name, space.getProperty('spaceName'))
 
 print "Delete discovery application"
-cfClient.delete_application(appName)
-
-cfClient.logout()
+cf_client.delete_application(app_name)
