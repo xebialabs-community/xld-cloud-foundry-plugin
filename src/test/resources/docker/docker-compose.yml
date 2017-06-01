@@ -13,7 +13,7 @@ mysql:
   image: xebialabs/xl-docker-demo-mysql:v5.7.16.1
 
 xld:
-  image: xebialabs/xld_dev_run:v6.0.1.2
+  image: xebialabs/xld_dev_run:v6.2.1.1
   volumes:
     - ~/xl-licenses:/license
     - ./../../../../:/data
