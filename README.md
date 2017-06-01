@@ -13,6 +13,8 @@ The Cloud Foundry plugin is a XL Deploy plugin that adds capability for deployin
 [![Build Status][xld-cloud-foundry-plugin-travis-image] ][xld-cloud-foundry-plugin-travis-url]
 [![Codacy Badge][xld-cloud-foundry-plugin-codacy-image] ][xld-cloud-foundry-plugin-codacy-url]
 [![Code Climate][xld-cloud-foundry-plugin-code-climate-image] ][xld-cloud-foundry-plugin-code-climate-url]
+[![License: MIT][xld-cloud-foundry-plugin-license-image] ][xld-cloud-foundry-plugin-license-url]
+[![Github All Releases][xld-cloud-foundry-plugin-downloads-image] ]()
 
 [xld-cloud-foundry-plugin-travis-image]: https://travis-ci.org/xebialabs-community/xld-cloud-foundry-plugin.svg?branch=master
 [xld-cloud-foundry-plugin-travis-url]: https://travis-ci.org/xebialabs-community/xld-cloud-foundry-plugin
@@ -20,6 +22,9 @@ The Cloud Foundry plugin is a XL Deploy plugin that adds capability for deployin
 [xld-cloud-foundry-plugin-codacy-url]: https://www.codacy.com/app/joris-dewinne/xld-cloud-foundry-plugin
 [xld-cloud-foundry-plugin-code-climate-image]: https://codeclimate.com/github/xebialabs-community/xld-cloud-foundry-plugin/badges/gpa.svg
 [xld-cloud-foundry-plugin-code-climate-url]: https://codeclimate.com/github/xebialabs-community/xld-cloud-foundry-plugin
+[xld-cloud-foundry-plugin-license-image]: https://img.shields.io/badge/License-MIT-yellow.svg
+[xld-cloud-foundry-plugin-license-url]: https://opensource.org/licenses/MIT
+[xld-cloud-foundry-plugin-downloads-image]: https://img.shields.io/github/downloads/xebialabs-community/xld-cloud-foundry-plugin/total.svg
 
 
 # Requirements #
