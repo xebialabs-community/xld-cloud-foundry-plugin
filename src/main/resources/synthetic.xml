@@ -12,7 +12,7 @@
 <synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://www.xebialabs.com/deployit/synthetic" xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
 
-    <type type="cf.Organization" extends="cf.VirtualContainer" >
+    <type type="cf.Organization" extends="udm.BaseContainer" root="INFRASTRUCTURE" >
         <property name="organizationName"/>
         <property name="apiEndpoint"/>
         <property name="defaultDomain"/>
@@ -37,14 +37,14 @@
         </method>
     </type>
 
-    <type type="cf.Space" extends="cf.VirtualSpaceContainer" >
+    <type type="cf.Space" extends="udm.BaseContainer" >
         <property name="organization" kind="ci" referenced-type="cf.Organization" as-containment="true" />
         <property name="spaceName"/>
 
         <method name="CheckConnection" delegate="jythonScript" description="Check connection for cloudfoundry space" script="cloudfoundry/check-space-connection.py" />
     </type>
 
-    <type type="cf.Domain" extends="cf.VirtualDomainContainer" >
+    <type type="cf.Domain" extends="udm.BaseContainer" >
         <property name="organization" kind="ci" referenced-type="cf.Organization" as-containment="true"/>
         <property name="domainName"/>
 

@@ -20,18 +20,15 @@ def apiVersion = '2017.4.0'
 
 xlDocker {
   compileImage = 'xebialabs/xld_dev_compile'
-  compileVersion = 'v6.2.1.1'
+  compileVersion = 'v7.0.0.1'
   runImage = 'xebialabs/xld_dev_run'
-  runVersion = 'v6.2.1.1'
+  runVersion = 'v7.0.0.1'
   runPortMapping = '14516:4516'
 }
 
 repositories {
   mavenLocal()
   mavenCentral()
-  maven {
-    url 'https://dist.xebialabs.com/public/maven2'
-  }
   maven {
     url 'https://artifacts.alfresco.com/nexus/content/groups/public/'
   }
@@ -41,8 +38,6 @@ dependencies {
   distBundle 'org.cloudfoundry:cloudfoundry-operations:2.0.2.RELEASE'
   distBundle 'org.cloudfoundry:cloudfoundry-client-reactor:2.0.2.RELEASE'
   distBundle 'io.projectreactor:reactor-core:3.0.3.RELEASE'
-
-  compile "com.xebialabs.deployit:udm-plugin-api:$apiVersion"
 }
 
 processResources.configure {
