@@ -84,6 +84,15 @@
         <property name="routes" kind="set_of_ci" referenced-type="cf.RouteSpec" as-containment="true" description="Routes for this application" />
     </type-modification>
 
+    <type type="cf.ManifestModule" extends="udm.BaseDeployedArtifact" deployable-type="cf.Manifest" container-type="cf.Space">
+        <generate-deployable type="cf.Manifest" extends="udm.BaseDeployableFileArtifact"/>
+        <property name="appName" required="true" description="Application name to be used."/>
+        <property name="dockerImage" required="false" description="Overrides docker image in manifest."/>
+
+        <property name="retrialCount" kind="integer" required="true" default="30" />
+        <property name="waitTime" kind="integer" required="true" default="2" />
+    </type>
+
     <type type="cf.Route" extends="udm.BaseEmbeddedDeployed" deployable-type="cf.RouteSpec" container-type="cf.WarModule">
         <generate-deployable type="cf.RouteSpec" extends="udm.BaseEmbeddedDeployable"/>
         <property name="appName" required="true" kind="string" description="Name of the application to route to"/>
