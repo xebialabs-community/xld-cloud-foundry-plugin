@@ -8,8 +8,9 @@
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+from java.nio.file import Paths
 from org.cloudfoundry.operations import DefaultCloudFoundryOperations
-from org.cloudfoundry.operations.applications import DeleteApplicationRequest, GetApplicationManifestRequest, PushApplicationRequest, RenameApplicationRequest, ScaleApplicationRequest, StartApplicationRequest, StopApplicationRequest
+from org.cloudfoundry.operations.applications import ApplicationManifest, ApplicationManifestUtils, DeleteApplicationRequest, Docker, GetApplicationManifestRequest, PushApplicationRequest, PushApplicationManifestRequest, RenameApplicationRequest, ScaleApplicationRequest, StartApplicationRequest, StopApplicationRequest
 from org.cloudfoundry.operations.routes import MapRouteRequest, UnmapRouteRequest
 from org.cloudfoundry.operations.services import CreateServiceInstanceRequest, DeleteServiceInstanceRequest, GetServiceInstanceRequest, BindServiceInstanceRequest
 from org.cloudfoundry.operations.spaces import CreateSpaceRequest, DeleteSpaceRequest
@@ -72,6 +73,17 @@ class CFClient(object):
         print "Creating application [%s] with memory [%s]" % (app_name, memory)
         self._client.applications().push(PushApplicationRequest.builder().name(app_name).application(file).buildpack(build_pack).host(hostname).instances(instances).memory(memory).noRoute(True).noStart(True).build()).block()
 
+
+    def create_manifest_application(self, app_name, file, docker_image = None):
+        if self.application_exists(app_name):
+            self.delete_application(app_name)
+        print "Creating application [%s] from manifest" % app_name
+        application_manifest = ApplicationManifest.builder().from(ApplicationManifestUtils.read(file).get(0)).build()
+        if docker_image:
+            application_manifest = ApplicationManifest.builder().from(ApplicationManifestUtils.read(file).get(0)).docker(Docker.builder().image(docker_image).build()).build()
+
+
+        self._client.applications().pushManifest(PushApplicationManifestRequest.builder().manifest(application_manifest).build()).block()
 
     def delete_application(self, app_name):
         if self.application_exists(app_name):
