@@ -75,7 +75,7 @@
             <jython>
                 <description expression="true">"Undeploy [%s] from [%s]" % (previousDeployed.appName, previousDeployed.container.name)</description>
                 <order>40</order>
-                <script>cloudfoundry/uninstall-war.py</script>
+                <script>cloudfoundry/uninstall-app.py</script>
                 <jython-context>
                     <appName expression="true">previousDeployed.appName</appName>
                 </jython-context>
@@ -170,7 +170,7 @@
             <jython>
                 <description expression="true">"Undeploy [%s] from [%s]" % (previousDeployed.appName, previousDeployed.container.name)</description>
                 <order>51</order>
-                <script>cloudfoundry/uninstall-war.py</script>
+                <script>cloudfoundry/uninstall-app.py</script>
                 <jython-context>
                     <appName expression="true">previousDeployed.appName</appName>
                 </jython-context>
@@ -198,7 +198,7 @@
             <jython>
                 <description expression="true">"Undeploy [%s] from [%s]" % (previousDeployed.appName, previousDeployed.container.name)</description>
                 <order>8</order>
-                <script>cloudfoundry/uninstall-war.py</script>
+                <script>cloudfoundry/uninstall-app.py</script>
                 <jython-context>
                     <appName expression="true">previousDeployed.appName</appName>
                 </jython-context>
@@ -402,7 +402,7 @@
             <jython>
                 <description expression="true">"Undeploy [%s] from [%s]" % (previousDeployed.appName, previousDeployed.container.name)</description>
                 <order>40</order>
-                <script>cloudfoundry/uninstall-manifest.py</script>
+                <script>cloudfoundry/uninstall-app.py</script>
                 <jython-context>
                     <appName expression="true">previousDeployed.appName</appName>
                 </jython-context>
