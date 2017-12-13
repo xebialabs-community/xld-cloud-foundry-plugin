@@ -78,12 +78,13 @@ class CFClient(object):
         if self.application_exists(app_name):
             self.delete_application(app_name)
         print "Creating application [%s] from manifest" % app_name
-        application_manifest = ApplicationManifest.builder().from(ApplicationManifestUtils.read(file).get(0)).build()
+        application_manifest_builder = ApplicationManifest.builder().from(ApplicationManifestUtils.read(file).get(0))
         if docker_image:
-            application_manifest = ApplicationManifest.builder().from(ApplicationManifestUtils.read(file).get(0)).docker(Docker.builder().image(docker_image).build()).build()
+            application_manifest_builder = application_manifest_builder.docker(Docker.builder().image(docker_image).build())
+        if app_name:
+            application_manifest_builder = application_manifest_builder.name(app_name)
 
-
-        self._client.applications().pushManifest(PushApplicationManifestRequest.builder().manifest(application_manifest).build()).block()
+        self._client.applications().pushManifest(PushApplicationManifestRequest.builder().manifest(application_manifest_builder.build()).build()).block()
 
     def delete_application(self, app_name):
         if self.application_exists(app_name):

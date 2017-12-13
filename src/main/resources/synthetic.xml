@@ -10,41 +10,49 @@
 
 -->
 <synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://www.xebialabs.com/deployit/synthetic" xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+           xmlns="http://www.xebialabs.com/deployit/synthetic"
+           xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
 
-    <type type="cf.Organization" extends="udm.BaseContainer" root="INFRASTRUCTURE" >
+    <type type="cf.Organization" extends="udm.BaseContainer" root="INFRASTRUCTURE">
         <property name="organizationName"/>
         <property name="apiEndpoint"/>
         <property name="defaultDomain"/>
 
         <property name="username" category="security"/>
         <property name="password" password="true" category="security"/>
-        <property name="ignoreSsl" required="false" kind="boolean" category="security" description="If true, self signed certificates will not be checked."/>
+        <property name="ignoreSsl" required="false" kind="boolean" category="security"
+                  description="If true, self signed certificates will not be checked."/>
 
-        <method name="CheckConnection" delegate="jythonScript" description="Check connection for cloudfoundry space" script="cloudfoundry/check-organization-connection.py" />
+        <method name="CheckConnection" delegate="jythonScript" description="Check connection for cloudfoundry space"
+                script="cloudfoundry/check-organization-connection.py"/>
 
-        <method name="DiscoverSpaces" delegate="jythonScript" description="Discover spaces from an organization" script="cloudfoundry/discover-spaces.py" />
-        <method name="DiscoverDomains" delegate="jythonScript" description="Discover domains from an organization" script="cloudfoundry/discover-domains.py" />
-        <method name="CreateSpace" delegate="jythonScript" description="Create a new space for this organization" script="cloudfoundry/create-space.py">
+        <method name="DiscoverSpaces" delegate="jythonScript" description="Discover spaces from an organization"
+                script="cloudfoundry/discover-spaces.py"/>
+        <method name="DiscoverDomains" delegate="jythonScript" description="Discover domains from an organization"
+                script="cloudfoundry/discover-domains.py"/>
+        <method name="CreateSpace" delegate="jythonScript" description="Create a new space for this organization"
+                script="cloudfoundry/create-space.py">
             <parameters>
-                <parameter name="spaceName" kind="string" />
+                <parameter name="spaceName" kind="string"/>
             </parameters>
         </method>
-        <method name="DeleteSpace" delegate="jythonScript" description="Deletes a space from this organization" script="cloudfoundry/delete-space.py">
+        <method name="DeleteSpace" delegate="jythonScript" description="Deletes a space from this organization"
+                script="cloudfoundry/delete-space.py">
             <parameters>
-                <parameter name="spaceName" kind="string" />
+                <parameter name="spaceName" kind="string"/>
             </parameters>
         </method>
     </type>
 
-    <type type="cf.Space" extends="udm.BaseContainer" >
-        <property name="organization" kind="ci" referenced-type="cf.Organization" as-containment="true" />
+    <type type="cf.Space" extends="udm.BaseContainer">
+        <property name="organization" kind="ci" referenced-type="cf.Organization" as-containment="true"/>
         <property name="spaceName"/>
 
-        <method name="CheckConnection" delegate="jythonScript" description="Check connection for cloudfoundry space" script="cloudfoundry/check-space-connection.py" />
+        <method name="CheckConnection" delegate="jythonScript" description="Check connection for cloudfoundry space"
+                script="cloudfoundry/check-space-connection.py"/>
     </type>
 
-    <type type="cf.Domain" extends="udm.BaseContainer" >
+    <type type="cf.Domain" extends="udm.BaseContainer">
         <property name="organization" kind="ci" referenced-type="cf.Organization" as-containment="true"/>
         <property name="domainName"/>
 
@@ -62,58 +70,73 @@
         <property name="buildPack" required="false" description="Build pack to be used."/>
         <property name="hostname" required="false" description="Hostname to be used."/>
         <property name="bindings" kind="set_of_string" required="false"/>
-        <property name="routes" kind="set_of_ci" referenced-type="cf.Route" as-containment="true" required="false" description="Routes for this application" />
+        <property name="routes" kind="set_of_ci" referenced-type="cf.Route" as-containment="true" required="false"
+                  description="Routes for this application"/>
 
-        <property name="memory" kind="integer" required="false" description="Memory settings in MB" default="512" category="scaling" />
-        <property name="instances" kind="integer" required="false" description="Number of instances" default="1" category="scaling" />
+        <property name="memory" kind="integer" required="false" description="Memory settings in MB" default="512"
+                  category="scaling"/>
+        <property name="instances" kind="integer" required="false" description="Number of instances" default="1"
+                  category="scaling"/>
 
-        <property name="blueGreen" kind="boolean" required="false" description="If selected, an update operation will be performed in a blue green deployment." />
+        <property name="blueGreen" kind="boolean" required="false"
+                  description="If selected, an update operation will be performed in a blue green deployment."/>
 
-        <property name="retrialCount" kind="integer" required="true" default="30" />
-        <property name="waitTime" kind="integer" required="true" default="2" />
+        <property name="retrialCount" kind="integer" required="true" default="30"/>
+        <property name="waitTime" kind="integer" required="true" default="2"/>
 
-        <method name="Scale" delegate="jythonScript" description="Scale instances and memory application" script="cloudfoundry/scale-application.py">
+        <method name="Scale" delegate="jythonScript" description="Scale instances and memory application"
+                script="cloudfoundry/scale-application.py">
             <parameters>
-                <parameter name="Instances" default="1" kind="integer" />
-                <parameter name="Memory" default="512" kind="integer" description="(MB)" />
+                <parameter name="Instances" default="1" kind="integer"/>
+                <parameter name="Memory" default="512" kind="integer" description="(MB)"/>
             </parameters>
         </method>
     </type>
 
     <type-modification type="cf.War">
-        <property name="routes" kind="set_of_ci" referenced-type="cf.RouteSpec" as-containment="true" description="Routes for this application" />
+        <property name="routes" kind="set_of_ci" referenced-type="cf.RouteSpec" as-containment="true"
+                  description="Routes for this application"/>
     </type-modification>
 
-    <type type="cf.ManifestModule" extends="udm.BaseDeployedArtifact" deployable-type="cf.Manifest" container-type="cf.Space">
+    <type type="cf.ManifestModule" extends="udm.BaseDeployedArtifact" deployable-type="cf.Manifest"
+          container-type="cf.Space">
         <generate-deployable type="cf.Manifest" extends="udm.BaseDeployableFileArtifact"/>
-        <property name="appName" required="true" description="Application name to be used."/>
+        <property name="appName" required="false" description="Overrides application name in manifest."/>
         <property name="dockerImage" required="false" description="Overrides docker image in manifest."/>
 
-        <property name="retrialCount" kind="integer" required="true" default="30" />
-        <property name="waitTime" kind="integer" required="true" default="2" />
+        <property name="retrialCount" kind="integer" required="true" default="30"/>
+        <property name="waitTime" kind="integer" required="true" default="2"/>
     </type>
 
-    <type type="cf.Route" extends="udm.BaseEmbeddedDeployed" deployable-type="cf.RouteSpec" container-type="cf.WarModule">
+    <type-modification type="cf.Manifest">
+        <property name="textFileNamesRegex" hidden="true" default=".+\.( json | yml | yaml )"/>
+    </type-modification>
+
+
+    <type type="cf.Route" extends="udm.BaseEmbeddedDeployed" deployable-type="cf.RouteSpec"
+          container-type="cf.WarModule">
         <generate-deployable type="cf.RouteSpec" extends="udm.BaseEmbeddedDeployable"/>
         <property name="appName" required="true" kind="string" description="Name of the application to route to"/>
         <property name="domainName" required="true" kind="string" description="Name of the domain to route to"/>
-        <property name="hostname" required="false" kind="string" description="Hostname for the HTTP route (required for shared domains)"/>
+        <property name="hostname" required="false" kind="string"
+                  description="Hostname for the HTTP route (required for shared domains)"/>
         <property name="path" required="false" kind="string" description="Path for the HTTP route"/>
         <property name="port" required="false" kind="integer" description="Port for the TCP route"/>
-        <property name="randomPort" required="false" kind="boolean" description="Use a random port number." default="false"/>
+        <property name="randomPort" required="false" kind="boolean" description="Use a random port number."
+                  default="false"/>
     </type>
 
     <type type="cf.Service" extends="udm.BaseDeployed" deployable-type="cf.ServiceSpec" container-type="cf.Space">
         <generate-deployable type="cf.ServiceSpec" extends="udm.BaseDeployable"/>
-        <property name="instanceName" />
-        <property name="serviceLabel" />
-        <property name="servicePlan" />
+        <property name="instanceName"/>
+        <property name="serviceLabel"/>
+        <property name="servicePlan"/>
     </type>
 
     <type-modification type="sql.SqlScripts">
         <property name="cloudFoundryDbService" required="false" category="CloudFoundry"/>
-        <property name="retrialCount" kind="integer" required="true" default="30" category="CloudFoundry" />
-        <property name="waitTime" kind="integer" required="true" default="2" category="CloudFoundry" />
+        <property name="retrialCount" kind="integer" required="true" default="30" category="CloudFoundry"/>
+        <property name="waitTime" kind="integer" required="true" default="2" category="CloudFoundry"/>
     </type-modification>
 
     <type type="cf.SqlClient" extends="generic.Container" virtual="true">
@@ -121,25 +144,25 @@
     </type>
 
     <type type="cf.MySqlClient" extends="cf.SqlClient">
-        <property name="clientWrapperScript" hidden="true" default="cloudfoundry/CfMySqlClient" />
+        <property name="clientWrapperScript" hidden="true" default="cloudfoundry/CfMySqlClient"/>
     </type>
 
-    <type type="cf.ExecutedSqlScripts" extends="generic.ExecutedFolder" deployable-type="sql.SqlScripts" container-type="cf.SqlClient">
+    <type type="cf.ExecutedSqlScripts" extends="generic.ExecutedFolder" deployable-type="sql.SqlScripts"
+          container-type="cf.SqlClient">
 
         <property name="cloudFoundryDbService" required="false" category="CloudFoundry"/>
 
-        <property name="retrialCount" kind="integer" required="true" default="30" category="CloudFoundry" />
-        <property name="waitTime" kind="integer" required="true" default="2" category="CloudFoundry" />
+        <property name="retrialCount" kind="integer" required="true" default="30" category="CloudFoundry"/>
+        <property name="waitTime" kind="integer" required="true" default="2" category="CloudFoundry"/>
 
-        <property name="destroyOrder" kind="integer" hidden="true" default="40" />
-        <property name="createVerb" hidden="true" default="Run" />
-        <property name="destroyVerb" hidden="true" default="Rollback" />
-        <property name="executorScript" hidden="true" default="${deployed.container.clientWrapperScript}" />
-        <property name="scriptRecognitionRegex" hidden="true" default="(?!.*-rollback\.sql)([0-9]*-.*)\.sql" />
-        <property name="rollbackScriptRecognitionRegex" hidden="true" default="([0-9]*-.*-rollback)\.sql" />
-        <property name="rollbackScriptPostfix" hidden="true" default="-rollback.sql" />
+        <property name="destroyOrder" kind="integer" hidden="true" default="40"/>
+        <property name="createVerb" hidden="true" default="Run"/>
+        <property name="destroyVerb" hidden="true" default="Rollback"/>
+        <property name="executorScript" hidden="true" default="${deployed.container.clientWrapperScript}"/>
+        <property name="scriptRecognitionRegex" hidden="true" default="(?!.*-rollback\.sql)([0-9]*-.*)\.sql"/>
+        <property name="rollbackScriptRecognitionRegex" hidden="true" default="([0-9]*-.*-rollback)\.sql"/>
+        <property name="rollbackScriptPostfix" hidden="true" default="-rollback.sql"/>
     </type>
-
 
 
 </synthetic>
