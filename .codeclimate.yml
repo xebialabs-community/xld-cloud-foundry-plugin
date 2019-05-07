@@ -1,26 +1,22 @@
----
-engines:
-  duplication:
+version: "2"
+checks:
+  argument-count:
     enabled: true
-    config:
-      languages:
-      - ruby
-      - javascript
-      - python
-      - php
-  fixme:
+  complex-logic:
     enabled: true
-  phpmd:
+  file-lines:
     enabled: true
-  radon:
+  method-complexity:
     enabled: true
-ratings:
-  paths:
-  - "**.inc"
-  - "**.js"
-  - "**.jsx"
-  - "**.module"
-  - "**.php"
-  - "**.py"
-  - "**.rb"
-exclude_paths: []
+  method-count:
+    enabled: true
+  method-lines:
+    enabled: true
+  nested-control-flow:
+    enabled: true
+  return-statements:
+    enabled: true
+  similar-code:
+    enabled: false
+  identical-code:
+    enabled: true
