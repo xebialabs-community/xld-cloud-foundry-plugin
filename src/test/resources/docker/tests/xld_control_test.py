@@ -10,16 +10,37 @@
 
 from com.xebialabs.deployit.engine.api.execution import TaskExecutionState
 
-def test_check_connection_organization_success():
-    server = repository.read('Infrastructure/XebiaLabs')
-    control = deployit.prepareControlTask(server, 'CheckConnection')
+def check_control_task(infrastructure_id, control_task, expected_final_state):
+    server = repository.read(infrastructure_id)
+    control = deployit.prepareControlTask(server, control_task)
     task_id = deployit.createControlTask(control)
     deployit.startTaskAndWait(task_id)
-    assert TaskExecutionState.DONE == task2.get(task_id).state
+    assert task2.get(task_id).state == expected_final_state
+
+def test_discover_spaces_success():
+    check_control_task(
+        'Infrastructure/XebiaLabs',
+        'DiscoverSpaces',
+        TaskExecutionState.DONE
+    )
+
+def test_discover_domains_success():
+    check_control_task(
+        'Infrastructure/XebiaLabs',
+        'DiscoverDomains',
+        TaskExecutionState.DONE
+    )
+
+def test_check_connection_organization_success():
+    check_control_task(
+        'Infrastructure/XebiaLabs',
+        'CheckConnection',
+        TaskExecutionState.DONE
+    )
 
 def test_check_connection_space_success():
-    server = repository.read('Infrastructure/XebiaLabs/XLR')
-    control = deployit.prepareControlTask(server, 'CheckConnection')
-    task_id = deployit.createControlTask(control)
-    deployit.startTaskAndWait(task_id)
-    assert TaskExecutionState.DONE == task2.get(task_id).state
+    check_control_task(
+        'Infrastructure/XebiaLabs/XLR',
+        'CheckConnection',
+        TaskExecutionState.DONE
+    )
