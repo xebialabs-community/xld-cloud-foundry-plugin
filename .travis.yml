@@ -1,5 +1,8 @@
 language: java
 sudo: false
+notifications:
+  slack:
+    secure: krd9SHhmqfvcBVNUEIWztxHSkkvwL3jIErugw+ysj/uZuNXqzNOIJ2nK/MgIqYusaiSOpZ3fKtd6E4t19UpbeseQD0N6/EW0PxjsrKeDgr6ONbqWmdJjQrQ2rl8WXztiYaEQPTORUy5Ot/reeNXUdEO2umFsqWPIlqCMCz2+z6o=
 deploy:
   provider: releases
   api_key:
