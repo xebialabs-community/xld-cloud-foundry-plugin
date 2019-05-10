@@ -2,7 +2,7 @@ language: java
 sudo: false
 notifications:
   slack:
-    secure: krd9SHhmqfvcBVNUEIWztxHSkkvwL3jIErugw+ysj/uZuNXqzNOIJ2nK/MgIqYusaiSOpZ3fKtd6E4t19UpbeseQD0N6/EW0PxjsrKeDgr6ONbqWmdJjQrQ2rl8WXztiYaEQPTORUy5Ot/reeNXUdEO2umFsqWPIlqCMCz2+z6o=
+    secure: EOJF0cCtgH/plfrV/UGnSDT85dIdaSRM4p73cU9BuUT4CR5nwncPcC2aaPNS5KKbHQuhZ9KTQTAHtrPLOQ3KQ1sBDgnuB8KkCZEVI72gZbCVQzycZVFH6HVQtRsX1Q0EKgybqz8Jf6P+siItcTg4cWcabd3CK3T6PyEuq4CPtqQ=
 deploy:
   provider: releases
   api_key:
